@@ -1,0 +1,7 @@
+<resources>
+    <string name="app_name">Simple Arithmetic</string>
+    <string name="cal_button">Calculate</string>
+    <string name="error_select">Select an operation</string>
+    <string name="error_division">Can\'t divide by 0</string>
+    <string name="error_missing">Please Enter A Signed Number</string>
+</resources>
