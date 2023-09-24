@@ -4,4 +4,6 @@
     <string name="error_select">Select an operation</string>
     <string name="error_division">Can\'t divide by 0</string>
     <string name="error_missing">Please Enter A Signed Number</string>
+    <string name="error_sqrt_equal">Only One Operand For Square Root</string>
+    <string name="error_sqrt">The Result Is Not Real Number</string>
 </resources>
