@@ -23,7 +23,6 @@ class MainActivity : AppCompatActivity() {
         val radioGroup: RadioGroup = findViewById(R.id.operations)
         var operation = 0
 
-
         // Attach an OnCheckedChangeListener to the RadioGroup
         radioGroup.setOnCheckedChangeListener { group, checkedId ->
             // Find the RadioButton that was selected
@@ -117,7 +116,6 @@ class MainActivity : AppCompatActivity() {
                             var output=userInput1.toInt() / userInput2.toInt()
                             textViewResult.text = "$output"
                         }
-
                     }
                 }
             }
@@ -131,5 +129,4 @@ class MainActivity : AppCompatActivity() {
             }
         }
     }
-
 }
