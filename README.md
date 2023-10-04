@@ -5,10 +5,10 @@ Group Work Only
 Tuesday And Thursday
 
 # Group Members
-Sicheng Chen (Thursday Section) \n
+Sicheng Chen (Thursday Section)  
 Siyi Du (Tuesday Section)
 
 # Contact
-Sicheng: csc0007@bu.edu \n
+Sicheng: csc0007@bu.edu  
 Siyi: ?
 
