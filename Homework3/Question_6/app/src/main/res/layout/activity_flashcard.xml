@@ -12,7 +12,7 @@
         android:text="Generate 10 Random Problems" />
 
     <TextView
-        android:id="@+id/problemTextView"
+        android:id="@+id/questionTextView"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="16dp" />
@@ -32,4 +32,22 @@
         android:layout_height="wrap_content"
         android:text="Submit Answers"
         android:layout_marginTop="16dp" />
+
+    <TextView
+        android:id="@+id/feedbackTextView"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:textSize="18sp"
+        android:visibility="gone"/>
+
+
+    <TextView
+        android:id="@+id/scoreTextView"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:textSize="18sp"
+        android:visibility="gone"/>
+
 </LinearLayout>
