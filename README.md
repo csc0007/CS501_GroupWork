@@ -10,5 +10,5 @@ Siyi Du (Tuesday Section)
 
 # Contact
 Sicheng: csc0007@bu.edu  
-Siyi: ?
+Siyi: dsharon@bu.edu
 
