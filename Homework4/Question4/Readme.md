@@ -1,3 +1,5 @@
+# Demo Video
+https://drive.google.com/file/d/1ZiJ9jU7buFkyplBu38Xg3uniekoqZFMA/view?usp=drive_link
 # Note
 After APP initiallized or new activity created, the device will shake due to system setting, which will trigger shake detector.
 # Reference
