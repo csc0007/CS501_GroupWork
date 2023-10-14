@@ -21,7 +21,6 @@
         android:id="@+id/answerEditText"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:hint="Enter answers separated by comma"
         android:layout_marginTop="16dp"
         android:minHeight="48dp"/>
 

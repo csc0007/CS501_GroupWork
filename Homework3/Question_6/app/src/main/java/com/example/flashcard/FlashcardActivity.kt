@@ -1,10 +1,11 @@
 package com.example.flashcard
 
-//import android.app.Activity
+import android.app.Activity
 import android.content.Context
 import android.content.Intent
 import android.os.Bundle
 import android.view.View
+import android.widget.EditText
 import android.widget.Toast
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
@@ -54,6 +55,8 @@ class FlashcardActivity : AppCompatActivity() {
             }
         }
 
+        binding.questionTextView.text = flashcardViewModel.getQuestionText()
+
         binding.generateButton.setOnClickListener {
             flashcardViewModel.correctAnswersCount = 0
             flashcardViewModel.currentIndex = 0  // Reset the index
@@ -85,7 +88,6 @@ class FlashcardActivity : AppCompatActivity() {
             }
 
 
-            //This part is not quite right
             if (flashcardViewModel.currentIndex == 9 && flashcardViewModel.correctAnswersCount <= 9) {
                 flashcardViewModel.moveToNext()
                 binding.generateButton.isEnabled = true
@@ -99,9 +101,9 @@ class FlashcardActivity : AppCompatActivity() {
                 flashcardViewModel.moveToNext()
                 updateQuestion()
             }
+            val answerEditText: EditText = findViewById(R.id.answerEditText)
+            answerEditText.setText("")
         }
-
-
     }
 
     companion object {
