@@ -5,16 +5,21 @@ import android.content.Context
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import androidx.activity.viewModels
 import com.example.snackbar.databinding.ActivityCheatBinding
 
+private const val TAG = "CheatActivity"
 const val EXTRA_ANSWER_SHOWN = "com.example.snackbar.answer_shown"
 private const val EXTRA_ANSWER_IS_TRUE =
     "com.example.snackbar.answer_is_true"
 
 class CheatActivity : AppCompatActivity() {
     private lateinit var binding: ActivityCheatBinding
+    private val quizViewModel: QuizViewModel by viewModels()
+    //binding CheatActivity with QuizViewModel
 
     private var answerIsTrue = false
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -24,12 +29,12 @@ class CheatActivity : AppCompatActivity() {
         answerIsTrue = intent.getBooleanExtra(EXTRA_ANSWER_IS_TRUE, false)
 
         binding.showAnswerButton.setOnClickListener {
-            val answerText = when {
+            var answerText = when {
                 answerIsTrue -> R.string.true_button
                 else -> R.string.false_button
             }
             binding.answerTextView.setText(answerText)
-            setAnswerShownResult(true)
+            quizViewModel.isCheater= true
         }
     }
 
