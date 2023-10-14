@@ -6,37 +6,11 @@
     android:orientation="vertical"
     android:padding="16dp">
     <TextView
+        android:id="@+id/home_textview"
         android:layout_width="wrap_content"
-        android:layout_height="48dp"
+        android:layout_height="wrap_content"
         android:text="Home"
-        android:textSize="36dp"
-        android:layout_marginBottom="36dp"
+        android:textSize="48dp"
         />
-    <Button
-        android:id="@+id/northButton"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="North" />
-
-    <Button
-        android:id="@+id/westButton"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="West"
-        android:layout_marginTop="16dp" />
-
-    <Button
-        android:id="@+id/eastButton"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="East"
-        android:layout_marginTop="16dp" />
-
-    <Button
-        android:id="@+id/southButton"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="South"
-        android:layout_marginTop="16dp" />
 
 </LinearLayout>
