@@ -1,3 +1,3 @@
 # Password for Homework3-Question6
-Username: Tuesday 
+Username: Tuesday   
 Password: Thursday
