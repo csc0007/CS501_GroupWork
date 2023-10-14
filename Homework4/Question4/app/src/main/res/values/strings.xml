@@ -1,0 +1,7 @@
+<resources>
+    <string name="app_name">FiveActivities</string>
+    <string name="title_activity_north">North</string>
+    <string name="title_activity_west">West</string>
+    <string name="title_activity_east">East</string>
+    <string name="title_activity_south">South</string>
+</resources>

@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:gravity="center"
+    android:orientation="vertical"
+    android:padding="16dp">
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="48dp"
+        android:text="Home"
+        android:textSize="36dp"
+        android:layout_marginBottom="36dp"
+        />
+    <Button
+        android:id="@+id/northButton"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="North" />
+
+    <Button
+        android:id="@+id/westButton"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="West"
+        android:layout_marginTop="16dp" />
+
+    <Button
+        android:id="@+id/eastButton"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="East"
+        android:layout_marginTop="16dp" />
+
+    <Button
+        android:id="@+id/southButton"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="South"
+        android:layout_marginTop="16dp" />
+
+</LinearLayout>
