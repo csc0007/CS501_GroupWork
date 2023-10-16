@@ -1,2 +1,189 @@
 <?xml version="1.0" encoding="utf-8"?>
-<
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:gravity="center"
+    android:orientation="vertical">
+
+    <ImageView
+        android:id="@+id/my_image_view"
+        android:layout_width="wrap_content"
+        android:layout_height="308dp"
+        android:src="@drawable/man" />
+    <TextView
+        android:id="@+id/user_answer_textview"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textSize="16dp"
+        android:gravity="center"
+        android:padding="24dp"
+        android:text="____ ____ ____ ____ ____ ____" />
+    <TextView
+        android:id="@+id/hint_textview"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textSize="24dp"
+        android:gravity="center"
+        android:padding="8dp"
+        android:text="CHOOSE A LETTER" />
+    <GridLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:columnCount="7"
+        android:paddingTop="16dp">
+        <Button
+            android:id="@+id/a_button"
+            android:layout_width="56dp"
+            android:layout_height="wrap_content"
+            android:text="A" />
+        <Button
+            android:id="@+id/b_button"
+            android:layout_width="56dp"
+            android:layout_height="wrap_content"
+            android:text="B" />
+        <Button
+            android:id="@+id/c_button"
+            android:layout_width="56dp"
+            android:layout_height="wrap_content"
+            android:text="C" />
+        <Button
+            android:id="@+id/d_button"
+            android:layout_width="56dp"
+            android:layout_height="wrap_content"
+            android:text="D" />
+        <Button
+            android:id="@+id/e_button"
+            android:layout_width="56dp"
+            android:layout_height="wrap_content"
+            android:text="E" />
+        <Button
+            android:id="@+id/f_button"
+            android:layout_width="56dp"
+            android:layout_height="wrap_content"
+            android:text="F" />
+    </GridLayout>
+    <GridLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:columnCount="7">
+        <Button
+            android:id="@+id/g_button"
+            android:layout_width="56dp"
+            android:layout_height="wrap_content"
+            android:text="G" />
+        <Button
+            android:id="@+id/h_button"
+            android:layout_width="56dp"
+            android:layout_height="wrap_content"
+            android:text="H" />
+        <Button
+            android:id="@+id/i_button"
+            android:layout_width="56dp"
+            android:layout_height="wrap_content"
+            android:text="I" />
+        <Button
+            android:id="@+id/j_button"
+            android:layout_width="56dp"
+            android:layout_height="wrap_content"
+            android:text="J" />
+        <Button
+            android:id="@+id/k_button"
+            android:layout_width="56dp"
+            android:layout_height="wrap_content"
+            android:text="K" />
+        <Button
+            android:id="@+id/l_button"
+            android:layout_width="56dp"
+            android:layout_height="wrap_content"
+            android:text="L" />
+    </GridLayout>
+    <GridLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:columnCount="7">
+        <Button
+            android:id="@+id/m_button"
+            android:layout_width="56dp"
+            android:layout_height="wrap_content"
+            android:text="M" />
+        <Button
+            android:id="@+id/n_button"
+            android:layout_width="56dp"
+            android:layout_height="wrap_content"
+            android:text="N" />
+        <Button
+            android:id="@+id/o_button"
+            android:layout_width="56dp"
+            android:layout_height="wrap_content"
+            android:text="O" />
+        <Button
+            android:id="@+id/p_button"
+            android:layout_width="56dp"
+            android:layout_height="wrap_content"
+            android:text="P" />
+        <Button
+            android:id="@+id/q_button"
+            android:layout_width="56dp"
+            android:layout_height="wrap_content"
+            android:text="Q" />
+        <Button
+            android:id="@+id/r_button"
+            android:layout_width="56dp"
+            android:layout_height="wrap_content"
+            android:text="R" />
+    </GridLayout>
+    <GridLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:columnCount="7">
+        <Button
+            android:id="@+id/s_button"
+            android:layout_width="56dp"
+            android:layout_height="wrap_content"
+            android:text="S" />
+        <Button
+            android:id="@+id/t_button"
+            android:layout_width="56dp"
+            android:layout_height="wrap_content"
+            android:text="T" />
+        <Button
+            android:id="@+id/u_button"
+            android:layout_width="56dp"
+            android:layout_height="wrap_content"
+            android:text="U" />
+        <Button
+            android:id="@+id/v_button"
+            android:layout_width="56dp"
+            android:layout_height="wrap_content"
+            android:text="V" />
+        <Button
+            android:id="@+id/w_button"
+            android:layout_width="56dp"
+            android:layout_height="wrap_content"
+            android:text="W" />
+        <Button
+            android:id="@+id/x_button"
+            android:layout_width="56dp"
+            android:layout_height="wrap_content"
+            android:text="X" />
+    </GridLayout>
+    <GridLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:columnCount="7">
+        <Button
+            android:id="@+id/y_button"
+            android:layout_width="56dp"
+            android:layout_height="wrap_content"
+            android:text="Y" />
+        <Button
+            android:id="@+id/z_button"
+            android:layout_width="56dp"
+            android:layout_height="wrap_content"
+            android:text="Z" />
+
+    </GridLayout>
+
+
+</LinearLayout>
