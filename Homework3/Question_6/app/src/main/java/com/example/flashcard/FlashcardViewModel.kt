@@ -22,8 +22,6 @@ class FlashcardViewModel(private val savedStateHandle: SavedStateHandle): ViewMo
         Log.d(TAG,"ViewModel instance about to be destroyed")
     }
     private val questionBank = MutableList(10) { Question("", 0) }
-    private var operationNum: Int = Random.nextInt(0, 1)
-    //0 is addition, 1 is subtraction
 
     var currentIndex : Int
         get() = savedStateHandle.get(CURRENT_INDEX_KEY)?: 0
@@ -50,7 +48,7 @@ class FlashcardViewModel(private val savedStateHandle: SavedStateHandle): ViewMo
         get() = savedStateHandle.get(RANDOM_NUM_2_KEY) ?: Random.nextInt(1, 21)
         set(value) = savedStateHandle.set(RANDOM_NUM_2_KEY, value)
 
-    private var randomOp: Int
+    private var randomOp: Int    //0 is addition, 1 is subtraction
         get() = savedStateHandle.get(RANDOM_OPERATION_KEY) ?: Random.nextInt(2)
         set(value) = savedStateHandle.set(RANDOM_OPERATION_KEY, value)
 

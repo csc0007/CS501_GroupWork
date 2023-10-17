@@ -1,3 +1,8 @@
 <resources>
     <string name="app_name">Hangman</string>
+    <string name="beer">beer</string>
+    <string name="whisky">whisky</string>
+    <string name="vodka">vodka</string>
+    <string name="baijiu">baijiu</string>
+    <string name="hint_drink">drink</string>
 </resources>

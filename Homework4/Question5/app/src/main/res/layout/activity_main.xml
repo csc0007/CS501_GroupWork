@@ -11,14 +11,55 @@
         android:layout_width="wrap_content"
         android:layout_height="308dp"
         android:src="@drawable/man" />
-    <TextView
-        android:id="@+id/user_answer_textview"
+    <GridLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:textSize="16dp"
-        android:gravity="center"
-        android:padding="24dp"
-        android:text="____ ____ ____ ____ ____ ____" />
+        android:columnCount="6"
+        android:paddingTop="16dp">
+        <TextView
+            android:id="@+id/letter1_textview"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="16dp"
+            android:paddingRight="16dp"
+            android:text="____" />
+        <TextView
+            android:id="@+id/letter2_textview"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="16dp"
+            android:paddingRight="16dp"
+            android:text="____" />
+        <TextView
+            android:id="@+id/letter3_textview"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="16dp"
+            android:paddingRight="16dp"
+            android:text="____" />
+        <TextView
+            android:id="@+id/letter4_textview"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="16dp"
+            android:paddingRight="16dp"
+            android:text="____" />
+        <TextView
+            android:id="@+id/letter5_textview"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="16dp"
+            android:paddingRight="16dp"
+            android:text="____" />
+        <TextView
+            android:id="@+id/letter6_textview"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="16dp"
+            android:paddingRight="16dp"
+            android:text="____" />
+    </GridLayout>
+
     <TextView
         android:id="@+id/hint_textview"
         android:layout_width="wrap_content"
@@ -30,7 +71,7 @@
     <GridLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:columnCount="7"
+        android:columnCount="6"
         android:paddingTop="16dp">
         <Button
             android:id="@+id/a_button"
