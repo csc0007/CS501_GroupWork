@@ -18,7 +18,6 @@ class MainActivity : AppCompatActivity() {
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
         enableAllButtons(false)
-
         binding.startButton.setOnClickListener {
             hangmanViewModel.generateQuestion()
             var temp=hangmanViewModel.currentIndex

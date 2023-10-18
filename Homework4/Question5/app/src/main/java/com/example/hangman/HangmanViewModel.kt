@@ -17,7 +17,11 @@ class HangmanViewModel(private val savedStateHandle: SavedStateHandle): ViewMode
         const val ANSWERS_KEY = "ANSWERS_KEY"
         const val QUESTION_LENGTH_KEY = "QUESTION_LENGTH_KEY"
         const val HANG_STATUS_KEY = "HANG_STATUS_KEY"
+        const val GAME_STATUS_KEY = "GAME_STATUS_KEY"
     }
+    var gameState: Int
+        get() = savedStateHandle[GAME_STATUS_KEY] ?: 0
+        set(value) = savedStateHandle.set(GAME_STATUS_KEY, value)
 
     var currentIndex: Int
         get() = savedStateHandle[CURRENT_INDEX_KEY] ?: 0
