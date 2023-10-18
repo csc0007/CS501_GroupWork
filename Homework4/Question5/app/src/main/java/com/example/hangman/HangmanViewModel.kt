@@ -2,30 +2,60 @@ package com.example.hangman
 
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
-import com.example.hangman.databinding.ActivityMainBinding
 import kotlin.random.Random
 
-private const val TAG = "HangmanViewModel"
-
-const val CURRENT_INDEX_KEY = "CURRENT_INDEX_KEY"
-
 class HangmanViewModel(private val savedStateHandle: SavedStateHandle): ViewModel() {
-    private lateinit var binding: ActivityMainBinding
 
     private val questionBank = listOf(
-        Question(R.string.beer, R.string.hint_drink),
-        Question(R.string.vodka, R.string.hint_drink),
-        Question(R.string.whisky, R.string.hint_drink),
-        Question(R.string.baijiu, R.string.hint_drink),
+        Question("beer", R.string.hint_drink),
+        Question("vodka", R.string.hint_drink),
+        Question("whisky", R.string.hint_drink),
+        Question("baijiu", R.string.hint_drink),
     )
     private companion object {
-        const val RANDOM_NUM_KEY = "RANDOM_NUM_KEY"
+        const val CURRENT_INDEX_KEY = "CURRENT_INDEX_KEY"
+        const val ANSWERS_KEY = "ANSWERS_KEY"
+        const val QUESTION_LENGTH_KEY = "QUESTION_LENGTH_KEY"
     }
 
-    private var randomNum: Int
-        get() = savedStateHandle.get(RANDOM_NUM_KEY) ?: Random.nextInt(4)
-        set(value) = savedStateHandle.set(RANDOM_NUM_KEY, value)
+    var currentIndex: Int
+        get() = savedStateHandle[CURRENT_INDEX_KEY] ?: 0
+        set(value) = savedStateHandle.set(CURRENT_INDEX_KEY, value)
 
+    private var questionLength: Int
+        get() = savedStateHandle[QUESTION_LENGTH_KEY] ?: questionBank[currentIndex].question.length
+        set(value) = savedStateHandle.set(QUESTION_LENGTH_KEY, value)
 
+    var answers: MutableList<String>
+        get() = savedStateHandle[ANSWERS_KEY] ?: mutableListOf()
+        set(value) = savedStateHandle.set(ANSWERS_KEY, value)
 
+    fun generateQuestion(){
+        val temp=currentIndex
+        currentIndex=Random.nextInt(4)
+        while(temp==currentIndex)
+            currentIndex=Random.nextInt(4)
+        // Update questionLength based on the new currentIndex
+        questionLength = questionBank[currentIndex].question.length
+        // Clear and initialize a new answers list based on the new questionLength
+        val newAnswers = mutableListOf<String>()
+        for (i in 0 until questionLength) {
+            newAnswers.add("_")
+        }
+        answers = newAnswers
+    }
+
+    fun checkAnswer(letter:String) {
+        val word = questionBank[currentIndex].question
+        val updatedAnswers = answers  // Create a new list
+
+        if (letter in word) {
+            var index = word.indexOf(letter)
+            while (index >= 0) {
+                updatedAnswers[index] = letter
+                index = word.indexOf(letter, index + 1)
+            }
+        }
+        answers = updatedAnswers
+    }
 }
