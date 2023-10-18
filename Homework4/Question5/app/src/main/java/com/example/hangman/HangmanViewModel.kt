@@ -16,6 +16,7 @@ class HangmanViewModel(private val savedStateHandle: SavedStateHandle): ViewMode
         const val CURRENT_INDEX_KEY = "CURRENT_INDEX_KEY"
         const val ANSWERS_KEY = "ANSWERS_KEY"
         const val QUESTION_LENGTH_KEY = "QUESTION_LENGTH_KEY"
+        const val HANG_STATUS_KEY = "HANG_STATUS_KEY"
     }
 
     var currentIndex: Int
@@ -29,6 +30,10 @@ class HangmanViewModel(private val savedStateHandle: SavedStateHandle): ViewMode
     var answers: MutableList<String>
         get() = savedStateHandle[ANSWERS_KEY] ?: mutableListOf()
         set(value) = savedStateHandle.set(ANSWERS_KEY, value)
+
+    var hangStatus: Int
+        get() = savedStateHandle[HANG_STATUS_KEY] ?: 2  //user have 2 change of making mistake
+        set(value) = savedStateHandle.set(HANG_STATUS_KEY, value)
 
     fun generateQuestion(){
         val temp=currentIndex
@@ -55,6 +60,10 @@ class HangmanViewModel(private val savedStateHandle: SavedStateHandle): ViewMode
                 updatedAnswers[index] = letter
                 index = word.indexOf(letter, index + 1)
             }
+        }
+        else
+        {
+            hangStatus-=1
         }
         answers = updatedAnswers
     }
