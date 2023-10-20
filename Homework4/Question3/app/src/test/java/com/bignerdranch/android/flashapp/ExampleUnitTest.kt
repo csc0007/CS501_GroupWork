@@ -1,4 +1,4 @@
-package com.bignerdranch.android.flashlightapp
+package com.bignerdranch.android.flashapp
 
 import org.junit.Test
 

@@ -4,11 +4,11 @@ plugins {
 }
 
 android {
-    namespace = "com.bignerdranch.android.flashlightapp"
+    namespace = "com.bignerdranch.android.flashapp"
     compileSdk = 34
 
     defaultConfig {
-        applicationId = "com.bignerdranch.android.flashlightapp"
+        applicationId = "com.bignerdranch.android.flashapp"
         minSdk = 30
         targetSdk = 33
         versionCode = 1

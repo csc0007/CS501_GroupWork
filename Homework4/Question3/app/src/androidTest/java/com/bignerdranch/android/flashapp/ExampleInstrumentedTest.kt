@@ -1,4 +1,4 @@
-package com.bignerdranch.android.flashlightapp
+package com.bignerdranch.android.flashapp
 
 import androidx.test.platform.app.InstrumentationRegistry
 import androidx.test.ext.junit.runners.AndroidJUnit4
@@ -19,6 +19,6 @@ class ExampleInstrumentedTest {
     fun useAppContext() {
         // Context of the app under test.
         val appContext = InstrumentationRegistry.getInstrumentation().targetContext
-        assertEquals("com.bignerdranch.android.flashlightapp", appContext.packageName)
+        assertEquals("com.bignerdranch.android.flashapp", appContext.packageName)
     }
 }

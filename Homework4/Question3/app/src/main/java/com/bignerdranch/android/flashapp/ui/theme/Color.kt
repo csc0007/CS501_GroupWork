@@ -1,4 +1,4 @@
-package com.bignerdranch.android.flashlightapp.ui.theme
+package com.bignerdranch.android.flashapp.ui.theme
 
 import androidx.compose.ui.graphics.Color
 
