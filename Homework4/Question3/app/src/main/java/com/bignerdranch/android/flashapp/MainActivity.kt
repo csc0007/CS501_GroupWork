@@ -67,7 +67,7 @@ class MainActivity : AppCompatActivity() {
                 val deltaY = e2.y - e1.y
                 Log.d("Gesture", "Fling detected with deltaY: $deltaY and velocityY: $velocityY")
 
-                // Checking if the fling is significant both in terms of speed and distance
+                // Checking if the fling is significant
                 if (Math.abs(velocityY) > 1000 && Math.abs(deltaY) > 100) {
                     if (deltaY < 0) { // fling upwards
                         flashlightSwitch.isChecked = true
