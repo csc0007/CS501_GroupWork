@@ -1,6 +1,5 @@
 package com.bignerdranch.android.criminalintent
 
-import android.graphics.BitmapFactory
 import android.graphics.Point
 import android.os.Bundle
 import android.util.Log
