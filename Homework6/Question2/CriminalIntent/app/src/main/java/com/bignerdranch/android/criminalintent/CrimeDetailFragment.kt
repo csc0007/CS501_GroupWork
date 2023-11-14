@@ -6,7 +6,6 @@ import android.content.pm.ResolveInfo
 import android.net.Uri
 import android.os.Bundle
 import android.provider.ContactsContract
-import android.text.format.DateFormat
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -26,6 +25,9 @@ import com.bignerdranch.android.criminalintent.databinding.FragmentCrimeDetailBi
 import kotlinx.coroutines.launch
 import java.io.File
 import java.util.Date
+import java.text.DateFormat
+import java.text.SimpleDateFormat
+import java.util.Locale
 
 private const val DATE_FORMAT = "EEE, MMM, dd"
 
@@ -146,7 +148,12 @@ class CrimeDetailFragment : Fragment() {
             if (crimeTitle.text.toString() != crime.title) {
                 crimeTitle.setText(crime.title)
             }
-            crimeDate.text = crime.date.toString()
+
+            val dateFormat = SimpleDateFormat("EEE, MMM d, yyyy", Locale.getDefault())
+            val dateString = dateFormat.format(crime.date)
+            val timeFormat = SimpleDateFormat("HH:mm:ss", Locale.getDefault())
+            val timeString = timeFormat.format(crime.date)
+            crimeDate.text = "$dateString $timeString"
             crimeDate.setOnClickListener {
                 findNavController().navigate(
                     CrimeDetailFragmentDirections.selectDate(crime.date)
@@ -185,8 +192,11 @@ class CrimeDetailFragment : Fragment() {
         } else {
             getString(R.string.crime_report_unsolved)
         }
-
-        val dateString = DateFormat.format(DATE_FORMAT, crime.date).toString()
+        val dateFormat = SimpleDateFormat("EEE, MMM d, yyyy", Locale.getDefault())
+        val date = dateFormat.format(crime.date)
+        val timeFormat = SimpleDateFormat("HH:mm:ss", Locale.getDefault())
+        val timeString = timeFormat.format(crime.date)
+        val dateString = "$date $timeString"
         val suspectText = if (crime.suspect.isBlank()) {
             getString(R.string.crime_report_no_suspect)
         } else {
