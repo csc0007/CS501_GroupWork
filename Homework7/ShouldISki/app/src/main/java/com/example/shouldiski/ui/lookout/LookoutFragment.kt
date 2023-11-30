@@ -28,10 +28,6 @@ class LookoutFragment : Fragment() {
         _binding = FragmentLookoutBinding.inflate(inflater, container, false)
         val root: View = binding.root
 
-        /*val textView: TextView = binding.textLookout
-        lookoutViewModel.text.observe(viewLifecycleOwner) {
-            textView.text = it
-        }*/
         return root
     }
 
