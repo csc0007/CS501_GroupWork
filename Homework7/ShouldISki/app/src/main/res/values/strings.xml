@@ -18,4 +18,13 @@
     <string name="carve">Carve</string>
     <string name="park">Park</string>
     <string name="preference_level">Level</string>
+    <string name="stowe_mountain_resort">Stowe Mountain Resort</string>
+    <string name="weather">Mostly Sunny</string>
+    <string name="hotel">Few Hotel</string>
+    <string name="traffic">Light</string>
+    <string name="ski_condition">Excellent\nPowder</string>
+    <string name="crowd">Expect\nCrowded</string>
+    <string name="drive_time">3h20min\n  Drive</string>
+    <string name="overall_score">Overall Score: 75/100</string>
+    <string name="recommended_or_not">Somewhat Recommended</string>
 </resources>
