@@ -13,8 +13,6 @@ class LookoutFragment : Fragment() {
 
     private var _binding: FragmentLookoutBinding? = null
 
-    // This property is only valid between onCreateView and
-    // onDestroyView.
     private val binding get() = _binding!!
 
     override fun onCreateView(
@@ -22,9 +20,7 @@ class LookoutFragment : Fragment() {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        /*val lookoutViewModel =
-            ViewModelProvider(this).get(LookoutViewModel::class.java)
-*/
+
         _binding = FragmentLookoutBinding.inflate(inflater, container, false)
         val root: View = binding.root
 

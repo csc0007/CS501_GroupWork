@@ -34,7 +34,6 @@ class SearchFragment : Fragment() {
     private fun showDatePickerDialog() {
         val datePickerDialog = DatePickerDialog(requireContext(),
             DatePickerDialog.OnDateSetListener { _, year, month, dayOfMonth ->
-                // Handle the date selected
             }, 2023, 11, 30)
         datePickerDialog.show()
     }
