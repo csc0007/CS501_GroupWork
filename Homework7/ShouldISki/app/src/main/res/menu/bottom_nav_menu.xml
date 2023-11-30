@@ -3,16 +3,16 @@
 
     <item
         android:id="@+id/navigation_search"
-        android:icon="@drawable/ic_snow_white_24dp"
+        android:icon="@drawable/ic_snow_black_24dp"
         android:title="@string/title_lookout" />
 
     <item
         android:id="@+id/navigation_lookout"
-        android:icon="@drawable/ic_search_white_24dp"
+        android:icon="@drawable/ic_search_black_24dp"
         android:title="@string/title_search" />
 
     <item
         android:id="@+id/navigation_profile"
-        android:icon="@drawable/ic_person_white_24dp"
+        android:icon="@drawable/ic_person_balck_24dp"
         android:title="@string/title_profile" />
 </menu>
