@@ -25,7 +25,7 @@ async function getUniqueRoomCount(checkin, checkout)
     },
     headers: {
         Accept: 'application/json',
-        'X-RapidAPI-Key': '054999d8c2mshb298a4b5c4ddea0p15eb49jsnabf9c5983234',
+        'X-RapidAPI-Key': 'PUT-API-KEY-HERE',
         'X-RapidAPI-Host': 'booking-com-api3.p.rapidapi.com'
     }
     };
