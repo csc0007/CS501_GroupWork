@@ -4,7 +4,9 @@
     <string name="title_search">Search</string>
     <string name="title_lookout">Lookout</string>
     <string name="enter_destination">Enter Destination</string>
-    <string name="select_your_date">Select Your Date</string>
+    <string name="select_Date">Select Your Date</string>
+    <string name="search">Search</string>
+    <string name="date_hint">Click Button To Select Your Date</string>
     <string name="preference">Preference Setting</string>
     <string name="preference_snow_condition">Snow Condition</string>
     <string name="powdersnow">Powder Snow</string>

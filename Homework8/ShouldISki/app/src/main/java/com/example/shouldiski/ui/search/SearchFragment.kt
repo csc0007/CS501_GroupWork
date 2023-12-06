@@ -1,21 +1,33 @@
 package com.example.shouldiski.ui.search
 
+import android.annotation.SuppressLint
 import android.app.DatePickerDialog
+import android.os.Build
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.CalendarView
 import android.widget.TextView
+import android.widget.Toast
+import androidx.annotation.RequiresApi
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import com.example.shouldiski.databinding.FragmentSearchBinding
+import java.time.LocalDate
+import java.time.format.DateTimeFormatter
 
 class SearchFragment : Fragment() {
 
     private var _binding: FragmentSearchBinding? = null
     private val binding get() = _binding!!
 
+    @RequiresApi(Build.VERSION_CODES.O)
+    private var selectedDate=LocalDate.of(1500, 0 + 1, 1)
+
+    private lateinit var viewModel: SearchViewModel
+
+    @RequiresApi(Build.VERSION_CODES.O)
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
@@ -24,19 +36,49 @@ class SearchFragment : Fragment() {
         _binding = FragmentSearchBinding.inflate(inflater, container, false)
         val root: View = binding.root
 
+        viewModel = ViewModelProvider(this)[SearchViewModel::class.java]
+
         binding.dateButton.setOnClickListener {
             showDatePickerDialog()
         }
 
+        binding.searchButton.setOnClickListener {
+            if(binding.destinationInput.text.isBlank())
+            {
+                Toast.makeText(requireContext(),
+                    "Please Enter Destination",
+                    Toast.LENGTH_SHORT).show()
+            }
+            else if (selectedDate == LocalDate.of(1500, 0 + 1, 1))
+            {
+                Toast.makeText(requireContext(),
+                    "Please Select Date",
+                    Toast.LENGTH_SHORT).show()
+            }
+            else
+            {
+                viewModel.submitData(binding.destinationInput.text.toString(), selectedDate)
+            }
+        }
         return root
     }
 
+
+    @SuppressLint("SetTextI18n")
+    @RequiresApi(Build.VERSION_CODES.O)
     private fun showDatePickerDialog() {
         val datePickerDialog = DatePickerDialog(requireContext(),
-            DatePickerDialog.OnDateSetListener { _, year, month, dayOfMonth ->
+            { _, year, month, dayOfMonth ->
+                // Format the date and set it to the TextView
+                selectedDate = LocalDate.of(year, month + 1, dayOfMonth)
+                val formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd")
+                val formattedDate = selectedDate.format(formatter)
+                binding.dateTextview.text = "Selected Ski trip Date: $formattedDate"
             }, 2023, 11, 30)
         datePickerDialog.show()
     }
+
+
 
     override fun onDestroyView() {
         super.onDestroyView()
