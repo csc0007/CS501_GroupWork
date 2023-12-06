@@ -1,0 +1,27 @@
+FULL RESPONSE:
+
+{
+  topSnowDepth: '30in',
+  botSnowDepth: '15in',
+  freshSnowfall: '1in',
+  lastSnowfallDate: '5 Dec 2023',
+  basicInfo: {
+    region: 'USA - Vermont',
+    name: 'Stowe',
+    url: 'https://www.snow-forecast.com/resorts/Stowe/6day/top',
+    topLiftElevation: '3639ft',
+    midLiftElevation: '2461ft',
+    botLiftElevation: '1280ft',
+    lat: '-72.70',
+    lon: '44.43'
+  }
+}
+
+EDITED RESPONSE:
+
+{
+  topSnowDepth: '30in',
+  botSnowDepth: '15in',
+  freshSnowfall: '1in',
+  lastSnowfallDate: '5 Dec 2023'
+}
