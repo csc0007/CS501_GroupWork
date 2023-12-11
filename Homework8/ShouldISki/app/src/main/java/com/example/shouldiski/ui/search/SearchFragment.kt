@@ -7,12 +7,11 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.CalendarView
-import android.widget.TextView
 import android.widget.Toast
 import androidx.annotation.RequiresApi
 import androidx.fragment.app.Fragment
-import androidx.lifecycle.ViewModelProvider
+import androidx.fragment.app.activityViewModels
+import androidx.lifecycle.Observer
 import com.example.shouldiski.databinding.FragmentSearchBinding
 import java.time.LocalDate
 import java.time.format.DateTimeFormatter
@@ -25,7 +24,7 @@ class SearchFragment : Fragment() {
     @RequiresApi(Build.VERSION_CODES.O)
     private var selectedDate=LocalDate.of(1500, 0 + 1, 1)
 
-    private lateinit var viewModel: SearchViewModel
+    private val viewModel: ShareViewModel by activityViewModels()
 
     @RequiresApi(Build.VERSION_CODES.O)
     override fun onCreateView(
@@ -36,14 +35,17 @@ class SearchFragment : Fragment() {
         _binding = FragmentSearchBinding.inflate(inflater, container, false)
         val root: View = binding.root
 
-        viewModel = ViewModelProvider(this)[SearchViewModel::class.java]
+        // Observe the LiveData for room availability data for debug
+        viewModel.roomAvailabilityData.observe(viewLifecycleOwner, Observer { data ->
+            binding.resultTextView.text = data
+        })
 
         binding.dateButton.setOnClickListener {
             showDatePickerDialog()
         }
 
         binding.searchButton.setOnClickListener {
-            if(binding.destinationInput.text.isBlank())
+            if (binding.destinationEditText.text.isBlank())
             {
                 Toast.makeText(requireContext(),
                     "Please Enter Destination",
@@ -55,14 +57,12 @@ class SearchFragment : Fragment() {
                     "Please Select Date",
                     Toast.LENGTH_SHORT).show()
             }
-            else
-            {
-                viewModel.submitData(binding.destinationInput.text.toString(), selectedDate)
+            else {
+                viewModel.submitData(binding.destinationEditText.text.toString(), selectedDate)
             }
         }
         return root
     }
-
 
     @SuppressLint("SetTextI18n")
     @RequiresApi(Build.VERSION_CODES.O)
@@ -77,8 +77,6 @@ class SearchFragment : Fragment() {
             }, 2023, 11, 30)
         datePickerDialog.show()
     }
-
-
 
     override fun onDestroyView() {
         super.onDestroyView()

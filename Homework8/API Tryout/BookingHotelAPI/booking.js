@@ -8,19 +8,10 @@ async function getUniqueRoomCount(checkin, checkout)
     method: 'GET',
     url: 'https://booking-com-api3.p.rapidapi.com/booking/blockAvailability',
     params: {
-        is_24hr: '0',
-        show_test: '0',
-        checkin: checkin,
-        show_only_test: '0',
-        units: 'metric',
-        allow_past: '0',
-        user_platform: 'desktop',
-        guest_qty: '1',
-        checkout: checkout,
-        language: 'en',
+        room1: 'A',
+        checkin: '2024-05-09',
+        checkout: '2024-05-10',
         hotel_ids: '191981',
-        https_photos: '0',
-        detail_level: '0',
         guest_cc: 'us'
     },
     headers: {
