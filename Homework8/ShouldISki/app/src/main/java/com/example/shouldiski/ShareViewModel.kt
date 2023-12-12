@@ -15,7 +15,7 @@ import okhttp3.Request
 import org.json.JSONObject
 import java.time.format.DateTimeFormatter
 
-const val API_KEY: String = ""
+const val API_KEY: String = "" //API key for hotelAPI and snow condition API
 
 class ShareViewModel : ViewModel() {
 
@@ -98,6 +98,8 @@ class ShareViewModel : ViewModel() {
 
     //////////////////////////////////Snow Condition////////////////////////////////////////////////
     val snowConditionLiveData = MutableLiveData<String>()
+    val snowConditionStructureLiveData = MutableLiveData<SnowCondition>()
+    val freshSnowLiveData = MutableLiveData<Int>()
     val errorLiveData = MutableLiveData<String>()
 
     data class SnowCondition(
@@ -108,10 +110,13 @@ class ShareViewModel : ViewModel() {
     )
 
     private fun fetchSnowCondition(resortName: String) {
+
         viewModelScope.launch {
             try {
                 val snowCondition = getSnowCondition(resortName)
+                snowConditionStructureLiveData.value = snowCondition
                 snowConditionLiveData.value = formatSnowCondition(snowCondition)
+                freshSnowLiveData.value = snowCondition.freshSnowfall.replace("cm", "").toInt()
             } catch (e: Exception) {
                 errorLiveData.postValue(e.message)
             }

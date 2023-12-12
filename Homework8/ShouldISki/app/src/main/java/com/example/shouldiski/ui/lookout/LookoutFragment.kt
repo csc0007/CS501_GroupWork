@@ -74,6 +74,34 @@ class LookoutFragment : Fragment() {
             binding.crowdImageView.setImageDrawable(wrappedCrowdDrawable)
         }
 ///////////////////////////////////Snow Condition API//////////////////////////////////////////////////
+
+        viewModel.freshSnowLiveData.observe(viewLifecycleOwner) { data ->
+
+            val skiDrawable = ContextCompat.getDrawable(requireContext(), R.drawable.baseline_downhill_skiing_24)
+            val wrappedSkiDrawable = DrawableCompat.wrap(skiDrawable!!).mutate()
+
+            if(data>15)
+            {
+                DrawableCompat.setTint(wrappedSkiDrawable,
+                    ContextCompat.getColor(requireContext(), R.color.green))
+                binding.skiCondition.text = "Excellent Snow"
+            }
+            else if (data>0&&data<=15)
+            {
+                DrawableCompat.setTint(wrappedSkiDrawable,
+                    ContextCompat.getColor(requireContext(), R.color.orange))
+                binding.skiCondition.text = "Some Snow"
+            }
+            else
+            {
+                DrawableCompat.setTint(wrappedSkiDrawable,
+                    ContextCompat.getColor(requireContext(), R.color.red))
+                binding.skiCondition.text = "No Fresh Snow"
+            }
+
+            binding.skiImageView.setImageDrawable(wrappedSkiDrawable)
+        }
+
         viewModel.snowConditionLiveData.observe(viewLifecycleOwner) { data ->
             binding.debugSnowTextView.text = data
         }

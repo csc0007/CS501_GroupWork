@@ -30,7 +30,7 @@
         app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
-        android:id="@+id/ski_condition"
+        android:id="@+id/skiCondition"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="480dp"
@@ -142,6 +142,7 @@
         app:layout_constraintTop_toTopOf="parent" />
 
     <ImageView
+        android:id="@+id/skiImageView"
         android:layout_width="77dp"
         android:layout_height="92dp"
         android:layout_marginTop="376dp"
