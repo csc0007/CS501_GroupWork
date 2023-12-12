@@ -42,7 +42,7 @@ class MainActivityViewModel : ViewModel() {
     private suspend fun getSnowCondition(resortName: String): SnowCondition = withContext(Dispatchers.IO) {
         val request = Request.Builder()
             .url("https://ski-resort-forecast.p.rapidapi.com/$resortName/snowConditions")
-            .addHeader("X-RapidAPI-Key", "API-KEY-HERE")
+            .addHeader("X-RapidAPI-Key", "")
             .addHeader("X-RapidAPI-Host", "ski-resort-forecast.p.rapidapi.com")
             .build()
 

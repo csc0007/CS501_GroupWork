@@ -7,7 +7,6 @@ import android.view.ViewGroup
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
-import androidx.lifecycle.Observer
 import com.example.shouldiski.databinding.FragmentLookoutBinding
 import com.example.shouldiski.ui.search.ShareViewModel
 import androidx.core.graphics.drawable.DrawableCompat
@@ -18,6 +17,7 @@ class LookoutFragment : Fragment() {
     private var _binding: FragmentLookoutBinding? = null
     private val binding get() = _binding!!
     private val viewModel: ShareViewModel by activityViewModels()
+
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -31,28 +31,52 @@ class LookoutFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        viewModel.roomAvailabilityData.observe(viewLifecycleOwner, Observer { data ->
+        viewModel.roomAvailabilityData.observe(viewLifecycleOwner) { data ->
             binding.debugTextView.text = data
-        })
+        }
 
-        viewModel.hotelPercentage.observe(viewLifecycleOwner, Observer { data ->
-            val hoteldrawable = binding.hotelImageView.drawable
-            val wrappedDrawable = DrawableCompat.wrap(hoteldrawable).mutate()
+        viewModel.hotelPercentage.observe(viewLifecycleOwner) { percentage ->
+            val hotelDrawable = ContextCompat.getDrawable(requireContext(), R.drawable.baseline_bed_24)
+            val wrappedHotelDrawable = DrawableCompat.wrap(hotelDrawable!!).mutate()
 
-            // Your color tint logic
-            val color = when {
-                data < 30 -> ContextCompat.getColor(requireContext(), R.color.green)
-                data in 30..49 -> ContextCompat.getColor(requireContext(), R.color.orange)
-                else -> ContextCompat.getColor(requireContext(), R.color.red)
+            val crowdDrawable = ContextCompat.getDrawable(requireContext(), R.drawable.baseline_groups_24)
+            val wrappedCrowdDrawable = DrawableCompat.wrap(crowdDrawable!!).mutate()
+
+            if (percentage<20)
+            {
+                DrawableCompat.setTint(wrappedHotelDrawable,
+                    ContextCompat.getColor(requireContext(), R.color.green))
+                binding.hotel.text = "A Lot Occupancy"
+                DrawableCompat.setTint(wrappedCrowdDrawable,
+                    ContextCompat.getColor(requireContext(), R.color.green))
+                binding.crowd.text = "Few People"
+            }
+            else if (percentage>=20&&percentage<40)
+            {
+                DrawableCompat.setTint(wrappedHotelDrawable,
+                    ContextCompat.getColor(requireContext(), R.color.orange))
+                binding.hotel.text = "Medium Occupancy"
+                DrawableCompat.setTint(wrappedCrowdDrawable,
+                    ContextCompat.getColor(requireContext(), R.color.orange))
+                binding.crowd.text = "Expect Crowded"
+            }
+            else
+            {
+                DrawableCompat.setTint(wrappedHotelDrawable,
+                    ContextCompat.getColor(requireContext(), R.color.red))
+                binding.hotel.text = "Few Hotel"
+                DrawableCompat.setTint(wrappedCrowdDrawable,
+                    ContextCompat.getColor(requireContext(), R.color.red))
+                binding.crowd.text = "Extremely Crowded"
             }
 
-            DrawableCompat.setTint(wrappedDrawable, color)
-            binding.hotelImageView.setImageDrawable(wrappedDrawable)
-        })
+            binding.hotelImageView.setImageDrawable(wrappedHotelDrawable)
+            binding.crowdImageView.setImageDrawable(wrappedCrowdDrawable)
+        }
 
-        viewModel.resortName.observe(viewLifecycleOwner, Observer { data ->
+        viewModel.resortName.observe(viewLifecycleOwner) { data ->
             binding.lookoutTopicTextView.text = data
-        })
+        }
     }
 
     override fun onDestroyView() {

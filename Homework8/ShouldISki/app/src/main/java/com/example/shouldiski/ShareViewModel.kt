@@ -15,17 +15,15 @@ import okhttp3.Request
 import org.json.JSONObject
 import java.time.format.DateTimeFormatter
 
+const val API_KEY: String = ""
+
 class ShareViewModel : ViewModel() {
 
     private val client = OkHttpClient()
 
-    val roomAvailabilityData = MutableLiveData<String>()
-    val resortName = MutableLiveData<String>()
-    val hotelPercentage = MutableLiveData<Double>()
+    /////////////////////////////////////General API Functions///////////////////////////////////////
 
-    // LiveData to hold the text and date data
-    private val _data = MutableLiveData<Pair<String, LocalDate?>>()
-    val data: LiveData<Pair<String, LocalDate?>> = _data
+    val resortName = MutableLiveData<String>()
 
     // Function to be called when data is submitted from the UI
     @RequiresApi(Build.VERSION_CODES.O)
@@ -39,8 +37,13 @@ class ShareViewModel : ViewModel() {
             resortName.value="Stowe Mountain Resort"
             //hotelID is hard coded here, there will be a database to save this information
             compareRoomAvailability(checkInDate, checkOutDate,"191981")
+            fetchSnowCondition("Stowe")
         }
     }
+
+    ////////////////////////////Hotel Availability///////////////////////////////////////////////////
+    val roomAvailabilityData = MutableLiveData<String>()
+    val hotelPercentage = MutableLiveData<Float>()
 
     @RequiresApi(Build.VERSION_CODES.O)
     fun compareRoomAvailability(checkin: String, checkout: String, hotelID: String) {
@@ -49,11 +52,12 @@ class ShareViewModel : ViewModel() {
                 val originalCount = getUniqueRoomCount(checkin, checkout, hotelID)
                 val sixMonthsLaterCount = getUniqueRoomCount(addSixMonths(checkin), addSixMonths(checkout), hotelID)
                 // compare with availability after six month (assume this is the empty status)
-                val hotelPercentage = ((sixMonthsLaterCount - originalCount).toFloat() / sixMonthsLaterCount.toFloat()) * 100
+                val percentage = ((sixMonthsLaterCount - originalCount).toFloat() / sixMonthsLaterCount.toFloat()) * 100
                 withContext(Dispatchers.Main) {
+                    hotelPercentage.value = percentage
                     roomAvailabilityData.value = "Available rooms: $originalCount\n" +
                             "Available rooms after six months: $sixMonthsLaterCount\n" +
-                            "Percentage of rooms booked: ${"%.2f".format(hotelPercentage)}%"
+                            "Percentage of rooms booked: ${"%.2f".format(percentage)}%"
                 }
             } catch (e: Exception) {
                 withContext(Dispatchers.Main) {
@@ -68,7 +72,7 @@ class ShareViewModel : ViewModel() {
             .url("https://booking-com-api3.p.rapidapi.com/booking/blockAvailability?room1=A&checkin=$checkin" +
                     "&checkout=$checkout&hotel_ids=$hotelID&guest_cc=us")
             .addHeader("Accept", "application/json")
-            .addHeader("X-RapidAPI-Key", "054999d8c2mshb298a4b5c4ddea0p15eb49jsnabf9c5983234")
+            .addHeader("X-RapidAPI-Key", API_KEY)
             .addHeader("X-RapidAPI-Host", "booking-com-api3.p.rapidapi.com")
             .build()
 
@@ -91,4 +95,48 @@ class ShareViewModel : ViewModel() {
         val parsedDate = LocalDate.parse(date, DateTimeFormatter.ISO_LOCAL_DATE)
         return parsedDate.plusMonths(3).format(DateTimeFormatter.ISO_LOCAL_DATE)
     }
+
+    //////////////////Snow Condition//////////////////////////////////
+    val snowConditionLiveData = MutableLiveData<SnowCondition>()
+    val errorLiveData = MutableLiveData<String>()
+
+    data class SnowCondition(
+        val topSnowDepth: String,
+        val botSnowDepth: String,
+        val freshSnowfall: String,
+        val lastSnowfallDate: String
+    )
+
+    private fun fetchSnowCondition(resortName: String) {
+        viewModelScope.launch {
+            try {
+                val snowCondition = getSnowCondition(resortName)
+                snowConditionLiveData.postValue(snowCondition)
+            } catch (e: Exception) {
+                errorLiveData.postValue(e.message)
+            }
+        }
+    }
+
+    private suspend fun getSnowCondition(resortName: String): SnowCondition = withContext(Dispatchers.IO) {
+        val request = Request.Builder()
+            .url("https://ski-resort-forecast.p.rapidapi.com/$resortName/snowConditions")
+            .addHeader("X-RapidAPI-Key", API_KEY)
+            .addHeader("X-RapidAPI-Host", "ski-resort-forecast.p.rapidapi.com")
+            .build()
+
+        val response = client.newCall(request).execute()
+        val jsonData = JSONObject(response.body?.string() ?: "")
+
+        // Choose result foramt, 'metric' or 'imperial'
+        val snowData = jsonData.getJSONObject("metric")
+
+        return@withContext SnowCondition(
+            topSnowDepth = snowData.getString("topSnowDepth"),
+            botSnowDepth = snowData.getString("botSnowDepth"),
+            freshSnowfall = snowData.getString("freshSnowfall"),
+            lastSnowfallDate = snowData.getString("lastSnowfallDate")
+        )
+    }
+
 }
