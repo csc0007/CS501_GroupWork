@@ -32,12 +32,12 @@ class ShareViewModel : ViewModel() {
         val checkInDate = date?.format(formatter).toString()
         val nextday=date?.plusDays(1)       //set default hotel check for 1 day
         val checkOutDate = nextday?.format(formatter).toString()
-        if (destination=="stowe")
+        if (destination=="Stowe")
         {
             resortName.value="Stowe Mountain Resort"
             //hotelID is hard coded here, there will be a database to save this information
             compareRoomAvailability(checkInDate, checkOutDate,"191981")
-            fetchSnowCondition("Stowe")
+            fetchSnowCondition(destination)
         }
     }
 
@@ -96,8 +96,8 @@ class ShareViewModel : ViewModel() {
         return parsedDate.plusMonths(3).format(DateTimeFormatter.ISO_LOCAL_DATE)
     }
 
-    //////////////////Snow Condition//////////////////////////////////
-    val snowConditionLiveData = MutableLiveData<SnowCondition>()
+    //////////////////////////////////Snow Condition////////////////////////////////////////////////
+    val snowConditionLiveData = MutableLiveData<String>()
     val errorLiveData = MutableLiveData<String>()
 
     data class SnowCondition(
@@ -111,7 +111,7 @@ class ShareViewModel : ViewModel() {
         viewModelScope.launch {
             try {
                 val snowCondition = getSnowCondition(resortName)
-                snowConditionLiveData.postValue(snowCondition)
+                snowConditionLiveData.value = formatSnowCondition(snowCondition)
             } catch (e: Exception) {
                 errorLiveData.postValue(e.message)
             }
@@ -128,7 +128,7 @@ class ShareViewModel : ViewModel() {
         val response = client.newCall(request).execute()
         val jsonData = JSONObject(response.body?.string() ?: "")
 
-        // Choose result foramt, 'metric' or 'imperial'
+        // Choose result format, 'metric' or 'imperial'
         val snowData = jsonData.getJSONObject("metric")
 
         return@withContext SnowCondition(
@@ -137,6 +137,13 @@ class ShareViewModel : ViewModel() {
             freshSnowfall = snowData.getString("freshSnowfall"),
             lastSnowfallDate = snowData.getString("lastSnowfallDate")
         )
+    }
+
+    private fun formatSnowCondition(snowCondition: SnowCondition): String {
+        return "Top Snow Depth: ${snowCondition.topSnowDepth}\n" +
+                "Bottom Snow Depth: ${snowCondition.botSnowDepth}\n" +
+                "Fresh Snowfall: ${snowCondition.freshSnowfall}\n" +
+                "Last Snowfall Date: ${snowCondition.lastSnowfallDate}"
     }
 
 }

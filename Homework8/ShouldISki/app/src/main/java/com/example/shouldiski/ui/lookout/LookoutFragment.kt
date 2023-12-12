@@ -30,9 +30,9 @@ class LookoutFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-
+////////////////////////////////////////Hotel API////////////////////////////////////////////////////////////
         viewModel.roomAvailabilityData.observe(viewLifecycleOwner) { data ->
-            binding.debugTextView.text = data
+            binding.debugHotelTextView.text = data
         }
 
         viewModel.hotelPercentage.observe(viewLifecycleOwner) { percentage ->
@@ -73,7 +73,11 @@ class LookoutFragment : Fragment() {
             binding.hotelImageView.setImageDrawable(wrappedHotelDrawable)
             binding.crowdImageView.setImageDrawable(wrappedCrowdDrawable)
         }
-
+///////////////////////////////////Snow Condition API//////////////////////////////////////////////////
+        viewModel.snowConditionLiveData.observe(viewLifecycleOwner) { data ->
+            binding.debugSnowTextView.text = data
+        }
+//////////////////////////////////////General Function/////////////////////////////////////////////////
         viewModel.resortName.observe(viewLifecycleOwner) { data ->
             binding.lookoutTopicTextView.text = data
         }

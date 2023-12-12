@@ -204,12 +204,20 @@
         app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
-        android:id="@+id/debugTextView"
+        android:id="@+id/debugHotelTextView"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="32dp"
+        android:layout_marginTop="8dp"
         android:textColor="@color/white"
         app:layout_constraintTop_toBottomOf="@+id/recommended_or_not"
         tools:layout_editor_absoluteX="-16dp" />
+
+    <TextView
+        android:id="@+id/debugSnowTextView"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textColor="@color/white"
+        app:layout_constraintTop_toBottomOf="@+id/debugHotelTextView"
+        tools:layout_editor_absoluteX="-27dp" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

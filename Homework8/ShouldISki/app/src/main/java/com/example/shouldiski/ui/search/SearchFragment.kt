@@ -37,7 +37,11 @@ class SearchFragment : Fragment() {
 
         // Observe the LiveData for room availability data for debug
         viewModel.roomAvailabilityData.observe(viewLifecycleOwner, Observer { data ->
-            binding.resultTextView.text = data
+            binding.hotelDebug.text = data
+        })
+
+        viewModel.snowConditionLiveData.observe(viewLifecycleOwner, Observer { data ->
+            binding.snowDebug.text = data
         })
 
         binding.dateButton.setOnClickListener {
