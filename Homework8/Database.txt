@@ -1,0 +1,6 @@
+Destination,ResortName,HotelID
+Stowe,Stowe Mountain Resort,191981
+Okemo,Okemo Mountain Resort
+Sunapee,Mount Sunapee Resort
+Wildcat,Wildcat Mountain
+Killington,Killington Grand Resort
