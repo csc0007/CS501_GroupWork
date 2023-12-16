@@ -50,13 +50,13 @@ class ShareViewModel : ViewModel() {
         viewModelScope.launch(Dispatchers.IO) {
             try {
                 val originalCount = getUniqueRoomCount(checkin, checkout, hotelID)
-                val sixMonthsLaterCount = getUniqueRoomCount(addSixMonths(checkin), addSixMonths(checkout), hotelID)
+                val monthsLaterCount = getUniqueRoomCount(addMonths(checkin), addMonths(checkout), hotelID)
                 // compare with availability after six month (assume this is the empty status)
-                val percentage = ((sixMonthsLaterCount - originalCount).toFloat() / sixMonthsLaterCount.toFloat()) * 100
+                val percentage = ((monthsLaterCount - originalCount).toFloat() / monthsLaterCount.toFloat()) * 100
                 withContext(Dispatchers.Main) {
                     hotelPercentage.value = percentage
                     roomAvailabilityData.value = "Available rooms: $originalCount\n" +
-                            "Available rooms after six months: $sixMonthsLaterCount\n" +
+                            "Available rooms after three months: $monthsLaterCount\n" +
                             "Percentage of rooms booked: ${"%.2f".format(percentage)}%"
                 }
             } catch (e: Exception) {
@@ -67,7 +67,7 @@ class ShareViewModel : ViewModel() {
         }
     }
 
-    private suspend fun getUniqueRoomCount(checkin: String, checkout: String, hotelID: String): Int {
+    private fun getUniqueRoomCount(checkin: String, checkout: String, hotelID: String): Int {
         val request = Request.Builder()
             .url("https://booking-com-api3.p.rapidapi.com/booking/blockAvailability?room1=A&checkin=$checkin" +
                     "&checkout=$checkout&hotel_ids=$hotelID&guest_cc=us")
@@ -91,7 +91,7 @@ class ShareViewModel : ViewModel() {
     }
 
     @RequiresApi(Build.VERSION_CODES.O)
-    private fun addSixMonths(date: String): String {
+    private fun addMonths(date: String): String {
         val parsedDate = LocalDate.parse(date, DateTimeFormatter.ISO_LOCAL_DATE)
         return parsedDate.plusMonths(3).format(DateTimeFormatter.ISO_LOCAL_DATE)
     }
