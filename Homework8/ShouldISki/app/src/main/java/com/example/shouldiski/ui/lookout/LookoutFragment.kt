@@ -4,8 +4,10 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+
 import android.widget.ImageView
 import android.widget.TextView
+
 import androidx.compose.material.Card
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
@@ -185,6 +187,7 @@ class LookoutFragment : Fragment() {
                 )
             }
         }
+
     }
     // Extract the weather condition from the weather data string
     private fun extractWeatherCondition(data: String): String {
@@ -196,6 +199,7 @@ class LookoutFragment : Fragment() {
         val color = ContextCompat.getColor(requireContext(), colorResId)
         DrawableCompat.setTint(drawable!!, color)
         binding.weatherIconImageView.setImageDrawable(drawable)
+
     }
 
     override fun onDestroyView() {
