@@ -1,12 +1,14 @@
 package com.example.shouldiski.ui.search
 
-import androidx.lifecycle.LiveData
+import android.app.Application
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import java.time.LocalDate
 import android.os.Build
 import androidx.annotation.RequiresApi
+import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.viewModelScope
+import com.example.shouldiski.SQLiteDatabase.DatabaseHandler
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
@@ -17,9 +19,11 @@ import java.time.format.DateTimeFormatter
 
 const val API_KEY: String = "054999d8c2mshb298a4b5c4ddea0p15eb49jsnabf9c5983234" //API key for hotelAPI and snow condition API
 
-class ShareViewModel : ViewModel() {
+class ShareViewModel(application: Application) : AndroidViewModel(application) {
 
     private val client = OkHttpClient()
+
+    private val dbHandler = DatabaseHandler(application)
 
     /////////////////////////////////////General API Functions///////////////////////////////////////
 
@@ -34,9 +38,10 @@ class ShareViewModel : ViewModel() {
         val checkOutDate = nextday?.format(formatter).toString()
         if (destination=="Stowe")
         {
-            resortName.value="Stowe Mountain Resort"
+            val hotelId = dbHandler.getHotelId(destination).toString()
+            resortName.value=dbHandler.getResortName(destination).toString()
             //hotelID is hard coded here, there will be a database to save this information
-            compareRoomAvailability(checkInDate, checkOutDate,"191981")
+            compareRoomAvailability(checkInDate, checkOutDate,hotelId)
             fetchSnowCondition(destination)
         }
     }
@@ -62,6 +67,8 @@ class ShareViewModel : ViewModel() {
             } catch (e: Exception) {
                 withContext(Dispatchers.Main) {
                     roomAvailabilityData.value = "Error: ${e.message}"
+                    val percentage = -1
+                    hotelPercentage.value = percentage.toFloat()
                 }
             }
         }
@@ -116,7 +123,14 @@ class ShareViewModel : ViewModel() {
                 val snowCondition = getSnowCondition(resortName)
                 snowConditionStructureLiveData.value = snowCondition
                 snowConditionLiveData.value = formatSnowCondition(snowCondition)
-                freshSnowLiveData.value = snowCondition.freshSnowfall.replace("cm", "").toInt()
+                if(snowCondition.freshSnowfall == "null")
+                {
+                    freshSnowLiveData.value = 0
+                }
+                else
+                {
+                    freshSnowLiveData.value = snowCondition.freshSnowfall.replace("cm", "").toInt()
+                }
             } catch (e: Exception) {
                 errorLiveData.postValue(e.message)
             }
@@ -125,16 +139,16 @@ class ShareViewModel : ViewModel() {
 
     private suspend fun getSnowCondition(resortName: String): SnowCondition = withContext(Dispatchers.IO) {
         val request = Request.Builder()
-            .url("https://ski-resort-forecast.p.rapidapi.com/$resortName/snowConditions")
+            .url("https://ski-resort-forecast.p.rapidapi.com/$resortName/snowConditions?units=m")
             .addHeader("X-RapidAPI-Key", API_KEY)
             .addHeader("X-RapidAPI-Host", "ski-resort-forecast.p.rapidapi.com")
             .build()
 
         val response = client.newCall(request).execute()
-        val jsonData = JSONObject(response.body?.string() ?: "")
-
+        //val jsonData = JSONObject(response.body?.string() ?: "")
+        val snowData = JSONObject(response.body?.string() ?: "")
         // Choose result format, 'metric' or 'imperial'
-        val snowData = jsonData.getJSONObject("metric")
+        //val snowData = jsonData.getJSONObject("metric")
 
         return@withContext SnowCondition(
             topSnowDepth = snowData.getString("topSnowDepth"),
