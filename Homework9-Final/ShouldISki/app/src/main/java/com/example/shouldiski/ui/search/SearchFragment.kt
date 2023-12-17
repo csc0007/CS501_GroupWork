@@ -62,7 +62,11 @@ class SearchFragment : Fragment() {
                     Toast.LENGTH_SHORT).show()
             }
             else {
-                viewModel.submitData(binding.destinationEditText.text.toString(), selectedDate)
+                val code = viewModel.submitData(binding.destinationEditText.text.toString(), selectedDate)
+                if(code==0)
+                {
+                    Toast.makeText(requireContext(), "This destination is not supported", Toast.LENGTH_SHORT).show()
+                }
             }
         }
         return root

@@ -87,4 +87,15 @@ class DatabaseHandler(private val context: Context) : SQLiteOpenHelper(context, 
         cursor.close()
         return resortName
     }
+
+    // Query through the database to check if input destination is in database.
+    // If in database, return 1, otherwise return 0
+    fun checkDestination(destination: String): Boolean {
+        val db = this.readableDatabase
+        val selectQuery = "SELECT * FROM $TABLE_NAME WHERE $COL_DESTINATION = ?"
+        val cursor = db.rawQuery(selectQuery, arrayOf(destination))
+        val exists = cursor.count > 0
+        cursor.close()
+        return exists
+    }
 }

@@ -30,20 +30,24 @@ class ShareViewModel(application: Application) : AndroidViewModel(application) {
     val resortName = MutableLiveData<String>()
 
     // Function to be called when data is submitted from the UI
+    // return 0 if input destination is not in database
     @RequiresApi(Build.VERSION_CODES.O)
-    fun submitData(destination: String, date: LocalDate?) {
+    fun submitData(destination: String, date: LocalDate?): Int {
         val formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd")
         val checkInDate = date?.format(formatter).toString()
         val nextday=date?.plusDays(1)       //set default hotel check for 1 day
         val checkOutDate = nextday?.format(formatter).toString()
-        if (destination=="Stowe")
+        if (dbHandler.checkDestination(destination))
         {
             val hotelId = dbHandler.getHotelId(destination).toString()
             resortName.value=dbHandler.getResortName(destination).toString()
             //hotelID is hard coded here, there will be a database to save this information
             compareRoomAvailability(checkInDate, checkOutDate,hotelId)
             fetchSnowCondition(destination)
+            return 1
         }
+        else return 0
+
     }
 
     ////////////////////////////Hotel Availability///////////////////////////////////////////////////
