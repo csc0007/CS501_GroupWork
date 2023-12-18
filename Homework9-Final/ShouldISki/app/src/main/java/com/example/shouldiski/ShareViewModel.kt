@@ -1,14 +1,15 @@
 package com.example.shouldiski.ui.search
 
 import android.app.Application
+import android.content.Context
 import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.ViewModel
 import java.time.LocalDate
 import android.os.Build
+import android.provider.Settings.Global.putInt
 import androidx.annotation.RequiresApi
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.viewModelScope
-import com.example.shouldiski.SQLiteDatabase.DatabaseHandler
+import com.example.shouldiski.SQLiteDatabase.ResortDatabase.ResortDatabaseHandler
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
@@ -17,13 +18,13 @@ import okhttp3.Request
 import org.json.JSONObject
 import java.time.format.DateTimeFormatter
 
-const val API_KEY: String = "" //API key for hotelAPI and snow condition API
+const val API_KEY: String = "054999d8c2mshb298a4b5c4ddea0p15eb49jsnabf9c5983234" //API key for hotelAPI and snow condition API
 
 class ShareViewModel(application: Application) : AndroidViewModel(application) {
 
     private val client = OkHttpClient()
 
-    private val dbHandler = DatabaseHandler(application)
+    private val dbHandler = ResortDatabaseHandler(application)
 
     /////////////////////////////////////General API Functions///////////////////////////////////////
 
@@ -168,5 +169,7 @@ class ShareViewModel(application: Application) : AndroidViewModel(application) {
                 "Fresh Snowfall: ${snowCondition.freshSnowfall}\n" +
                 "Last Snowfall Date: ${snowCondition.lastSnowfallDate}"
     }
+    ////////////////////////////Recommendation///////////////////////////////////////////////////
+
 
 }

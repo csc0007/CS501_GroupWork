@@ -1,4 +1,4 @@
-package com.example.shouldiski.SQLiteDatabase
+package com.example.shouldiski.SQLiteDatabase.ResortDatabase
 
 import android.annotation.SuppressLint
 import android.content.ContentValues
@@ -9,15 +9,15 @@ import android.widget.Toast
 
 
 
-val DATABASE_NAME = "Database"
-val TABLE_NAME = "DataTable"
-val COL_DESTINATION = "Destination"
-val COL_RESORTNAME = "ResortName"
-val COL_HOTELID = "HotelID"
-val COL_RESORTLOCATION = "ResortLocation"
-val COL_ID = "ID"
+const val DATABASE_NAME = "ResortDatabase"
+const val TABLE_NAME = "ResortDataTable"
+const val COL_DESTINATION = "Destination"
+const val COL_RESORTNAME = "ResortName"
+const val COL_HOTELID = "HotelID"
+const val COL_RESORTLOCATION = "ResortLocation"
+const val COL_ID = "ID"
 
-class DatabaseHandler(private val context: Context) : SQLiteOpenHelper(context, DATABASE_NAME, null, 1) {
+class ResortDatabaseHandler(private val context: Context) : SQLiteOpenHelper(context, DATABASE_NAME, null, 1) {
     override fun onCreate(db: SQLiteDatabase?) {
 
         val createTable = "CREATE TABLE " + TABLE_NAME + " (" +
@@ -37,6 +37,7 @@ class DatabaseHandler(private val context: Context) : SQLiteOpenHelper(context, 
 
     fun importCSV(fileName: String) {
         val db = this.writableDatabase
+        db.execSQL("DELETE FROM $TABLE_NAME")   //clear up existing data before import new
         context.assets.open(fileName).bufferedReader().useLines { lines ->
             lines.drop(1).forEach { line -> // Skip the header
                 val tokens = line.split(',')
@@ -58,8 +59,6 @@ class DatabaseHandler(private val context: Context) : SQLiteOpenHelper(context, 
         var result = db.insert(TABLE_NAME,null,cv)
         if(result == -1.toLong())
             Toast.makeText(context,"Failed",Toast.LENGTH_SHORT).show()
-        else
-            Toast.makeText(context,"Success",Toast.LENGTH_SHORT).show()
     }
 
     @SuppressLint("Range")

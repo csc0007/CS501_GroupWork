@@ -1,4 +1,4 @@
-package com.example.shouldiski.SQLiteDatabase
+package com.example.shouldiski.SQLiteDatabase.ResortDatabase
 
 class Resort {
     var id : Int = 0

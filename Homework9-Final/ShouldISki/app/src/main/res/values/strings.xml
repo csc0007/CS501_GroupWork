@@ -29,4 +29,5 @@
     <string name="drive_time">3h20min\n  Drive</string>
     <string name="overall_score">Overall Score: 75/100</string>
     <string name="recommended_or_not">Somewhat Recommended</string>
+    <string name="save">Save Preference</string>
 </resources>

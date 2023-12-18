@@ -7,7 +7,7 @@ import androidx.navigation.findNavController
 import androidx.navigation.ui.AppBarConfiguration
 import androidx.navigation.ui.setupActionBarWithNavController
 import androidx.navigation.ui.setupWithNavController
-import com.example.shouldiski.SQLiteDatabase.DatabaseHandler
+import com.example.shouldiski.SQLiteDatabase.ResortDatabase.ResortDatabaseHandler
 import com.example.shouldiski.databinding.ActivityMainBinding
 
 class MainActivity : AppCompatActivity() {
@@ -17,7 +17,7 @@ class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        val dbHandler = DatabaseHandler(this)
+        val dbHandler = ResortDatabaseHandler(this)
         dbHandler.importCSV("Database.txt")
 
         binding = ActivityMainBinding.inflate(layoutInflater)
