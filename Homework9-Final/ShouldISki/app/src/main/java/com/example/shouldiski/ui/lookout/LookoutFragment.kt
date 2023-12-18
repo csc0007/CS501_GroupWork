@@ -6,6 +6,8 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.ImageView
+import android.widget.TextView
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
@@ -33,6 +35,8 @@ class LookoutFragment : Fragment() {
     @SuppressLint("SetTextI18n")
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        val weatherTextView = view.findViewById<TextView>(R.id.weather)
+        val weatherIconImageView = view.findViewById<ImageView>(R.id.weatherIconImageView)
 ////////////////////////////////////////Hotel API////////////////////////////////////////////////////////////
         var hotelInformation="No Data"
         viewModel.roomAvailabilityData.observe(viewLifecycleOwner) { data ->
@@ -124,6 +128,25 @@ class LookoutFragment : Fragment() {
             snowInformation = data
             binding.debugSnowTextView.text = snowInformation
         }
+        ///////////////////////////////////Weather Forecast API//////////////////////////////////////////////////
+
+        viewModel.weatherData.observe(viewLifecycleOwner) { data ->
+
+            // Update UI with weather data
+            weatherTextView.text = data
+
+            // Extract weather condition from the data
+            val weatherCondition = extractWeatherCondition(data)
+
+            // Change icon color based on weather condition
+            val color = when {
+                weatherCondition.contains("sunny", ignoreCase = true) || weatherCondition.contains("cloudy", ignoreCase = true) -> R.color.green
+                weatherCondition.contains("rain", ignoreCase = true) || weatherCondition.contains("freezing", ignoreCase = true) || weatherCondition.contains("fog", ignoreCase = true)-> R.color.red
+                weatherCondition.contains("snow", ignoreCase = true) || weatherCondition.contains("mist", ignoreCase = true)-> R.color.orange
+                else -> R.color.white
+            }
+            changeIconColor(color)
+        }
 ////////////////////////////////////Icon Click Event Handle//////////////////////////////////////////////
         binding.hotelImageView.setOnClickListener{
             val dialogFragment = LookoutDialogFragment()
@@ -164,6 +187,18 @@ class LookoutFragment : Fragment() {
             binding.overallScore.text = "Overall Score: $data"
         }
 
+
+    }
+    // Extract the weather condition from the weather data string
+    private fun extractWeatherCondition(data: String): String {
+        return data.substringAfter("Weather: ").substringBefore("\n")
+    }
+    // Change the color of the baseline_brightness_7_24 drawable
+    private fun changeIconColor(colorResId: Int) {
+        val drawable = ContextCompat.getDrawable(requireContext(), R.drawable.baseline_brightness_7_24)?.mutate()
+        val color = ContextCompat.getColor(requireContext(), colorResId)
+        DrawableCompat.setTint(drawable!!, color)
+        binding.weatherIconImageView.setImageDrawable(drawable)
 
     }
 
