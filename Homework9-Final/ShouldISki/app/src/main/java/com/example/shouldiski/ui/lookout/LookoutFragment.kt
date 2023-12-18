@@ -1,6 +1,7 @@
 package com.example.shouldiski.ui.lookout
 
 import LookoutDialogFragment
+import android.annotation.SuppressLint
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -29,6 +30,7 @@ class LookoutFragment : Fragment() {
         return binding.root
     }
 
+    @SuppressLint("SetTextI18n")
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 ////////////////////////////////////////Hotel API////////////////////////////////////////////////////////////
@@ -158,6 +160,9 @@ class LookoutFragment : Fragment() {
             binding.lookoutTopicTextView.text = data
         }
 
+        viewModel.recommendation.observe(viewLifecycleOwner) { data ->
+            binding.overallScore.text = "Overall Score: $data"
+        }
 
 
     }

@@ -1,14 +1,13 @@
 package com.example.shouldiski.ui.search
 
 import android.app.Application
-import android.content.Context
 import androidx.lifecycle.MutableLiveData
 import java.time.LocalDate
 import android.os.Build
-import android.provider.Settings.Global.putInt
 import androidx.annotation.RequiresApi
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.viewModelScope
+import com.example.shouldiski.SQLiteDatabase.PreferenceDatabase.PreferenceDatabaseHandler
 import com.example.shouldiski.SQLiteDatabase.ResortDatabase.ResortDatabaseHandler
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.Dispatchers
@@ -24,7 +23,25 @@ class ShareViewModel(application: Application) : AndroidViewModel(application) {
 
     private val client = OkHttpClient()
 
-    private val dbHandler = ResortDatabaseHandler(application)
+    private val resortDBHandler = ResortDatabaseHandler(application)
+    private val preferenceDBHandler = PreferenceDatabaseHandler(application)
+
+    val roomAvailabilityData = MutableLiveData<String>()
+    val hotelPercentage = MutableLiveData<Float>()
+
+    val snowConditionLiveData = MutableLiveData<String>()
+    val snowConditionStructureLiveData = MutableLiveData<SnowCondition>()
+    val freshSnowLiveData = MutableLiveData<Int>()
+    val errorLiveData = MutableLiveData<String>()
+
+    val recommendation = MutableLiveData<Int>()
+
+    data class SnowCondition(
+        val topSnowDepth: String,
+        val botSnowDepth: String,
+        val freshSnowfall: String,
+        val lastSnowfallDate: String
+    )
 
     /////////////////////////////////////General API Functions///////////////////////////////////////
 
@@ -38,23 +55,31 @@ class ShareViewModel(application: Application) : AndroidViewModel(application) {
         val checkInDate = date?.format(formatter).toString()
         val nextday=date?.plusDays(1)       //set default hotel check for 1 day
         val checkOutDate = nextday?.format(formatter).toString()
-        if (dbHandler.checkDestination(destination))
+        if (resortDBHandler.checkDestination(destination))
         {
-            val hotelId = dbHandler.getHotelId(destination).toString()
-            resortName.value=dbHandler.getResortName(destination).toString()
+            val hotelId = resortDBHandler.getHotelId(destination).toString()
+            resortName.value=resortDBHandler.getResortName(destination).toString()
             //hotelID is hard coded here, there will be a database to save this information
             compareRoomAvailability(checkInDate, checkOutDate,hotelId)
             fetchSnowCondition(destination)
+            setRecommendation()
             return 1
         }
         else return 0
 
     }
 
-    ////////////////////////////Hotel Availability///////////////////////////////////////////////////
-    val roomAvailabilityData = MutableLiveData<String>()
-    val hotelPercentage = MutableLiveData<Float>()
+    ////////////////////////////Recommendation//////////////////////////////////////////////////
 
+    private fun setRecommendation(){
+        val preference = preferenceDBHandler.getPreference()
+        recommendation.value = preference.carveSkill + preference.parkSkill+ preference.powderSnow
+        + preference.groomedSnow  + preference.clearWeather + preference.snowWeather + preference.warmWeather
+        + preference.coldWeather + preference.levelP
+
+    }
+
+    ////////////////////////////Hotel Availability///////////////////////////////////////////////////
     @RequiresApi(Build.VERSION_CODES.O)
     fun compareRoomAvailability(checkin: String, checkout: String, hotelID: String) {
         viewModelScope.launch(Dispatchers.IO) {
@@ -109,17 +134,6 @@ class ShareViewModel(application: Application) : AndroidViewModel(application) {
     }
 
     //////////////////////////////////Snow Condition////////////////////////////////////////////////
-    val snowConditionLiveData = MutableLiveData<String>()
-    val snowConditionStructureLiveData = MutableLiveData<SnowCondition>()
-    val freshSnowLiveData = MutableLiveData<Int>()
-    val errorLiveData = MutableLiveData<String>()
-
-    data class SnowCondition(
-        val topSnowDepth: String,
-        val botSnowDepth: String,
-        val freshSnowfall: String,
-        val lastSnowfallDate: String
-    )
 
     private fun fetchSnowCondition(resortName: String) {
 
@@ -150,10 +164,7 @@ class ShareViewModel(application: Application) : AndroidViewModel(application) {
             .build()
 
         val response = client.newCall(request).execute()
-        //val jsonData = JSONObject(response.body?.string() ?: "")
         val snowData = JSONObject(response.body?.string() ?: "")
-        // Choose result format, 'metric' or 'imperial'
-        //val snowData = jsonData.getJSONObject("metric")
 
         return@withContext SnowCondition(
             topSnowDepth = snowData.getString("topSnowDepth"),
@@ -169,7 +180,7 @@ class ShareViewModel(application: Application) : AndroidViewModel(application) {
                 "Fresh Snowfall: ${snowCondition.freshSnowfall}\n" +
                 "Last Snowfall Date: ${snowCondition.lastSnowfallDate}"
     }
-    ////////////////////////////Recommendation///////////////////////////////////////////////////
+
 
 
 }
