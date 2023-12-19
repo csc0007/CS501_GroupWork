@@ -51,13 +51,13 @@ class ShareViewModel(application: Application) : AndroidViewModel(application) {
     // Function to be called when data is submitted from the UI
     // return 0 if input destination is not in database
     @RequiresApi(Build.VERSION_CODES.O)
-    fun submitData(destination: String, date: LocalDate?): Int {
+    fun submitData(destination: String, cityAddress: String, date: LocalDate?): Int {
         val formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd")
         val checkInDate = date?.format(formatter).toString()
         val nextday=date?.plusDays(1)       //set default hotel check for 1 day
         val checkOutDate = nextday?.format(formatter).toString()
         if (date != null) {
-            fetchWeatherForecast(destination, date.format(DateTimeFormatter.ofPattern("yyyy-MM-dd")))
+            fetchWeatherForecast(cityAddress, date.format(DateTimeFormatter.ofPattern("yyyy-MM-dd")))
         }
         if (resortDBHandler.checkDestination(destination))
         {

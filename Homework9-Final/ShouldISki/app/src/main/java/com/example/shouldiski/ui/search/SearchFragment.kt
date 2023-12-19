@@ -49,22 +49,17 @@ class SearchFragment : Fragment() {
         }
 
         binding.searchButton.setOnClickListener {
-            if (binding.destinationEditText.text.isBlank())
-            {
-                Toast.makeText(requireContext(),
-                    "Please Enter Destination",
-                    Toast.LENGTH_SHORT).show()
-            }
-            else if (selectedDate == LocalDate.of(1500, 0 + 1, 1))
-            {
-                Toast.makeText(requireContext(),
-                    "Please Select Date",
-                    Toast.LENGTH_SHORT).show()
-            }
-            else {
-                val code = viewModel.submitData(binding.destinationEditText.text.toString(), selectedDate)
-                if(code==0)
-                {
+            val destination = binding.destinationEditText.text.toString()
+            val cityAddress = binding.cityAddressEditText.text.toString()
+            if (destination.isBlank()) {
+                Toast.makeText(requireContext(), "Please Enter Destination", Toast.LENGTH_SHORT).show()
+            } else if (cityAddress.isBlank()) {
+                Toast.makeText(requireContext(), "Please Enter City Address", Toast.LENGTH_SHORT).show()
+            } else if (selectedDate == LocalDate.of(1500, 1, 1)) {
+                Toast.makeText(requireContext(), "Please Select Date", Toast.LENGTH_SHORT).show()
+            } else {
+                val code = viewModel.submitData(destination, cityAddress, selectedDate)
+                if(code == 0) {
                     Toast.makeText(requireContext(), "This destination is not supported", Toast.LENGTH_SHORT).show()
                 }
             }

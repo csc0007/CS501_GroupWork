@@ -30,4 +30,5 @@
     <string name="overall_score">Overall Score: 75/100</string>
     <string name="recommended_or_not">Somewhat Recommended</string>
     <string name="save">Save Preference</string>
+    <string name="enter_city_address">Enter City Address</string>
 </resources>
