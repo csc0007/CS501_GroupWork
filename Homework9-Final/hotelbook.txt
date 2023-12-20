@@ -1,0 +1,6 @@
+Destination,ResortName,HotelID,ResortLocation,Hotel Name
+Stowe,Stowe Mountain Resort,191981,109.66666,Sun & Ski Inn and Suites
+Okemo,Okemo Mountain Resort,406833,109.66666,Jackson Gore Village on Okemo Mountain
+Sunapee,Mount Sunapee Resort,308531,109.66666,Mountain Edge Suites at Sunapee
+Wildcat,Wildcat Mountain,2168361,109.66666,The Inn at Thorn Hill
+Killington,Killington Grand Resort,521973,109.66666,Killington Grand Resort Hotel

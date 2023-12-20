@@ -15,12 +15,13 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 import okhttp3.OkHttpClient
 import okhttp3.Request
+import org.json.JSONArray
 import org.json.JSONObject
 import java.net.SocketTimeoutException
 import java.time.format.DateTimeFormatter
 import java.util.concurrent.TimeUnit
 
-const val API_KEY: String = "054999d8c2mshb298a4b5c4ddea0p15eb49jsnabf9c5983234" //API key for hotelAPI and snow condition API
+const val API_KEY: String = "" //API key for hotelAPI and snow condition API
 
 class ShareViewModel(application: Application) : AndroidViewModel(application) {
 
@@ -113,22 +114,29 @@ class ShareViewModel(application: Application) : AndroidViewModel(application) {
 
     private suspend fun getUniqueRoomCount(checkin: String, checkout: String, hotelID: String): Int {
         val request = Request.Builder()
-            .url("https://booking-com-api3.p.rapidapi.com/booking/blockAvailability?room1=A&checkin=$checkin" +
-                    "&checkout=$checkout&hotel_ids=$hotelID&guest_cc=us")
+            .url("https://booking-com.p.rapidapi.com/v1/hotels/room-list?currency=USD" +
+                    "&adults_number_by_rooms=1&units=metric&checkin_date=$checkin" +
+                    "&hotel_id=$hotelID&locale=en-us&checkout_date=$checkout")
             .addHeader("Accept", "application/json")
             .addHeader("X-RapidAPI-Key", API_KEY)
-            .addHeader("X-RapidAPI-Host", "booking-com-api3.p.rapidapi.com")
+            .addHeader("X-RapidAPI-Host", "booking-com.p.rapidapi.com")
             .build()
 
         val response = client.newCall(request).execute()
-        val jsonData = JSONObject(response.body?.string() ?: "")
-        val results = jsonData.getJSONArray("result")
-        val uniqueRoomIds = mutableSetOf<Int>()
-        for (i in 0 until results.length()) {
-            val blocks = results.getJSONObject(i).getJSONArray("block")
-            for (j in 0 until blocks.length()) {
-                val roomId = blocks.getJSONObject(j).getInt("room_id")
-                uniqueRoomIds.add(roomId)
+        val jsonString = response.body?.string() ?: ""
+        val jsonData = JSONArray(jsonString)
+        val uniqueRoomIds = mutableSetOf<String>()
+
+        for (i in 0 until jsonData.length()) {
+            val hotelData = jsonData.getJSONObject(i)
+            // Check if the 'rooms' key exists to handle no room available situation
+            if (hotelData.has("rooms")) {
+                val roomsObject = hotelData.getJSONObject("rooms")
+                val roomKeys = roomsObject.keys()
+                while (roomKeys.hasNext()) {
+                    val key = roomKeys.next()
+                    uniqueRoomIds.add(key)
+                }
             }
         }
         return uniqueRoomIds.size

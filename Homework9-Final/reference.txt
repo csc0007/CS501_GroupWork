@@ -1,0 +1,1 @@
+Android Tutorial (Kotlin) - 30 - SQLite Database Creation and Insertion
