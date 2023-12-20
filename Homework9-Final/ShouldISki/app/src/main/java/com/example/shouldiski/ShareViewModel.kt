@@ -19,7 +19,7 @@ import org.json.JSONArray
 import org.json.JSONObject
 import java.time.format.DateTimeFormatter
 
-const val API_KEY: String = "054999d8c2mshb298a4b5c4ddea0p15eb49jsnabf9c5983234" //API key for hotelAPI and snow condition API
+const val API_KEY: String = "" //API key for hotelAPI and snow condition API
 
 class ShareViewModel(application: Application) : AndroidViewModel(application) {
 
