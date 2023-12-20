@@ -1,0 +1,99 @@
+<This line is not a part of response>Query1:
+[
+  {
+    recommended_block_title: 'Recommended for 1 adult',
+    top_ufi_benefits: [ [Object], [Object], [Object], [Object] ],
+    arrival_date: '2023-12-24',
+    hotel_id: 2168361,
+    min_room_distribution: { adults: 1, children: [] },
+    max_rooms_in_reservation: 10,
+    block: [ [Object], [Object], [Object] ],
+    address_required: 1,
+    b_max_los_data: {
+      default_los: 45,
+      experiment: 'long_stays_android_extend_los_2',
+      is_fullon: 0,
+      extended_los: 90,
+      max_allowed_los: 90,
+      has_extended_los: 1
+    },
+    cvc_required: '1',
+    qualifies_for_no_cc_reservation: 0,
+    mf_rate_selection: 1,
+    currency_code: 'USD',
+    duplicate_rates_removed: 0,
+    room_recommendation: [ [Object] ],
+    b_blackout_android_prepayment_copy: 0,
+    tax_exceptions: [],
+    preferences: [],
+    cc_required: '1',
+    is_exclusive: 0,
+    total_blocks: 3,
+    use_new_bui_icon_highlight: 0,
+    b_legal_use_neutral_color_for_persuasion_legal: 1,
+    is_cpv2_property: 1,
+    rooms: {
+      '216836103': [Object],
+      '216836109': [Object],
+      '216836113': [Object]
+    },
+    departure_date: '2023-12-25',
+    direct_payment: { is_hpp_only: 0 },
+    last_matching_block_index: 0,
+    soldout_rooms: []
+  }
+]
+<This line is not a part of response>Query2:
+[
+  {
+    room_recommendation: [ [Object] ],
+    last_matching_block_index: 0,
+    block: [
+      [Object], [Object],
+      [Object], [Object],
+      [Object], [Object],
+      [Object]
+    ],
+    is_cpv2_property: 1,
+    cvc_required: '1',
+    duplicate_rates_removed: 0,
+    tax_exceptions: [],
+    cc_required: '1',
+    soldout_rooms: [],
+    mf_rate_selection: 1,
+    b_max_los_data: {
+      is_fullon: 0,
+      extended_los: 90,
+      default_los: 45,
+      has_extended_los: 1,
+      experiment: 'long_stays_android_extend_los_2',
+      max_allowed_los: 90
+    },
+    rooms: {
+      '216836101': [Object],
+      '216836103': [Object],
+      '216836105': [Object],
+      '216836106': [Object],
+      '216836110': [Object],
+      '216836111': [Object],
+      '216836112': [Object]
+    },
+    departure_date: '2024-02-25',
+    direct_payment: { is_hpp_only: 0 },
+    hotel_id: 2168361,
+    max_rooms_in_reservation: 10,
+    b_legal_use_neutral_color_for_persuasion_legal: 1,
+    top_ufi_benefits: [ [Object], [Object], [Object], [Object] ],
+    currency_code: 'USD',
+    recommended_block_title: 'Recommended for 1 adult',
+    b_blackout_android_prepayment_copy: 0,
+    total_blocks: 7,
+    qualifies_for_no_cc_reservation: 0,
+    min_room_distribution: { adults: 1, children: [] },
+    arrival_date: '2024-02-24',
+    is_exclusive: 0,
+    preferences: [],
+    address_required: 1,
+    use_new_bui_icon_highlight: 0
+  }
+]
