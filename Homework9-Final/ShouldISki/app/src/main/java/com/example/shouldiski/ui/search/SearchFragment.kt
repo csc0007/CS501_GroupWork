@@ -2,6 +2,10 @@ package com.example.shouldiski.ui.search
 
 import android.annotation.SuppressLint
 import android.app.DatePickerDialog
+import android.content.Context
+import android.content.pm.PackageManager
+import android.location.Location
+import android.location.LocationManager
 import android.os.Build
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -9,6 +13,8 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
 import androidx.annotation.RequiresApi
+import androidx.core.app.ActivityCompat
+import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.Observer
@@ -62,6 +68,10 @@ class SearchFragment : Fragment() {
                 if(code == 0) {
                     Toast.makeText(requireContext(), "This destination is not supported", Toast.LENGTH_SHORT).show()
                 }
+                getCurrentLocation { location ->
+                    val origin = "${location.latitude},${location.longitude}"
+                    viewModel.getDrivingDirections(origin, cityAddress)
+                }
             }
         }
         return root
@@ -72,13 +82,40 @@ class SearchFragment : Fragment() {
     private fun showDatePickerDialog() {
         val datePickerDialog = DatePickerDialog(requireContext(),
             { _, year, month, dayOfMonth ->
-                // Format the date and set it to the TextView
                 selectedDate = LocalDate.of(year, month + 1, dayOfMonth)
                 val formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd")
                 val formattedDate = selectedDate.format(formatter)
                 binding.dateTextview.text = "Selected Ski trip Date: $formattedDate"
-            }, 2023, 11, 30)
+            }, LocalDate.now().year, LocalDate.now().monthValue - 1, LocalDate.now().dayOfMonth)
         datePickerDialog.show()
+    }
+
+    @SuppressLint("MissingPermission")
+    private fun getCurrentLocation(callback: (Location) -> Unit) {
+        if (ContextCompat.checkSelfPermission(requireContext(), android.Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+            ActivityCompat.requestPermissions(requireActivity(), arrayOf(android.Manifest.permission.ACCESS_FINE_LOCATION), 1)
+        } else {
+            val locationManager = requireActivity().getSystemService(Context.LOCATION_SERVICE) as LocationManager
+            val location = locationManager.getLastKnownLocation(LocationManager.GPS_PROVIDER)
+            if (location != null) {
+                callback(location)
+            } else {
+                Toast.makeText(requireContext(), "Unable to determine current location", Toast.LENGTH_LONG).show()
+            }
+        }
+    }
+
+    override fun onRequestPermissionsResult(requestCode: Int, permissions: Array<out String>, grantResults: IntArray) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults)
+        if (requestCode == 1 && grantResults.isNotEmpty() && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+            getCurrentLocation { location ->
+                val origin = "${location.latitude},${location.longitude}"
+                val cityAddress = binding.cityAddressEditText.text.toString()
+                viewModel.getDrivingDirections(origin, cityAddress)
+            }
+        } else {
+            Toast.makeText(requireContext(), "Location permission is required", Toast.LENGTH_SHORT).show()
+        }
     }
 
     override fun onDestroyView() {

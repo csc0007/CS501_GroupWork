@@ -37,6 +37,8 @@ class LookoutFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
         val weatherTextView = view.findViewById<TextView>(R.id.weather)
         val weatherIconImageView = view.findViewById<ImageView>(R.id.weatherIconImageView)
+        val distanceIconImageView = view.findViewById<ImageView>(R.id.distanceIconImageView)
+        val durationIconImageView = view.findViewById<ImageView>(R.id.durationIconImageView)
 ////////////////////////////////////////Hotel API////////////////////////////////////////////////////////////
         var hotelInformation="No Data"
         viewModel.roomAvailabilityData.observe(viewLifecycleOwner) { data ->
@@ -147,6 +149,14 @@ class LookoutFragment : Fragment() {
             }
             changeIconColor(color)
         }
+///////////////////////////////////Driving Direction API//////////////////////////////////////////////////
+        viewModel.routeInfo.observe(viewLifecycleOwner) { data ->
+            val (distance, duration) = parseRouteInfo(data)
+            binding.traffic.text = distance
+            binding.driveTime.text = duration
+
+            updateIconColors(distance, duration)
+        }
 ////////////////////////////////////Icon Click Event Handle//////////////////////////////////////////////
         binding.hotelImageView.setOnClickListener{
             val dialogFragment = LookoutDialogFragment()
@@ -201,6 +211,38 @@ class LookoutFragment : Fragment() {
         binding.weatherIconImageView.setImageDrawable(drawable)
 
     }
+    private fun parseRouteInfo(routeInfo: String): Pair<String, String> {
+        // Extract distance and duration from the routeInfo string
+        val distance = routeInfo.substringAfter("Distance: ").substringBefore(", Duration: ")
+        val duration = routeInfo.substringAfter("Duration: ")
+        return Pair(distance, duration)
+    }
+
+    private fun updateIconColors(distance: String, duration: String) {
+        val distanceValue = distance.filter { it.isDigit() }.toIntOrNull() ?: 0
+        val durationHours = duration.substringBefore(" hr").toIntOrNull() ?: 0
+
+        val distanceColor = when {
+            distanceValue <= 150 -> R.color.green
+            distanceValue <= 400 -> R.color.orange
+            else -> R.color.red
+        }
+        val durationColor = when {
+            durationHours <= 5 -> R.color.green
+            durationHours <= 8 -> R.color.orange
+            else -> R.color.red
+        }
+
+        val distanceDrawable = ContextCompat.getDrawable(requireContext(), R.drawable.baseline_directions_car_24)?.mutate()
+        val durationDrawable = ContextCompat.getDrawable(requireContext(), R.drawable.baseline_access_time_24)?.mutate()
+
+        DrawableCompat.setTint(distanceDrawable!!, ContextCompat.getColor(requireContext(), distanceColor))
+        DrawableCompat.setTint(durationDrawable!!, ContextCompat.getColor(requireContext(), durationColor))
+
+        binding.distanceIconImageView.setImageDrawable(distanceDrawable)
+        binding.durationIconImageView.setImageDrawable(durationDrawable)
+    }
+
 
     override fun onDestroyView() {
         super.onDestroyView()

@@ -99,6 +99,7 @@
         app:layout_constraintTop_toTopOf="parent" />
 
     <ImageView
+        android:id="@+id/distanceIconImageView"
         android:layout_width="77dp"
         android:layout_height="92dp"
         android:layout_marginTop="232dp"
@@ -121,6 +122,7 @@
         app:layout_constraintTop_toTopOf="parent" />
 
     <ImageView
+        android:id="@+id/durationIconImageView"
         android:layout_width="77dp"
         android:layout_height="92dp"
         android:layout_marginTop="376dp"
@@ -181,7 +183,6 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="332dp"
-        android:text="@string/traffic"
         android:textColor="@color/white"
         android:textSize="15sp"
         app:layout_constraintEnd_toEndOf="parent"
@@ -194,7 +195,6 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="480dp"
-        android:text="@string/drive_time"
         android:textColor="@color/white"
         android:textSize="15sp"
         app:layout_constraintEnd_toEndOf="parent"
