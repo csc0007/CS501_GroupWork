@@ -77,7 +77,7 @@
         app:layout_constraintTop_toTopOf="parent" />
 
     <ImageView
-        android:id="@+id/weatherImageView"
+        android:id="@+id/weatherIconImageView"
         android:layout_width="77dp"
         android:layout_height="92dp"
         android:layout_marginTop="232dp"
@@ -169,7 +169,6 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="332dp"
-        android:text="@string/weather"
         android:textColor="@color/white"
         android:textSize="15sp"
         app:layout_constraintEnd_toEndOf="parent"
