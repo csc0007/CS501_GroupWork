@@ -31,4 +31,8 @@
     <string name="recommended_or_not">Somewhat Recommended</string>
     <string name="save">Save Preference</string>
     <string name="enter_city_address">Enter City Address</string>
+    <string name="beginer">Beginer</string>
+    <string name="intermediate">Intermediate</string>
+    <string name="expert">Expert</string>
+    <string name="shouldski">ShouldSki</string>
 </resources>
