@@ -149,6 +149,11 @@ class LookoutFragment : Fragment() {
             }
             changeIconColor(color)
         }
+        var weatherInformation= "No Data"
+        viewModel.weatherData.observe(viewLifecycleOwner) { data ->
+            weatherInformation = data
+            binding.debugWeatherTextView.text = weatherInformation
+        }
 ///////////////////////////////////Driving Direction API//////////////////////////////////////////////////
         viewModel.routeInfo.observe(viewLifecycleOwner) { data ->
             val (distance, duration) = parseRouteInfo(data)
@@ -156,6 +161,11 @@ class LookoutFragment : Fragment() {
             binding.driveTime.text = duration
 
             updateIconColors(distance, duration)
+        }
+        var trafficInformation= "No Data"
+        viewModel.routeInfo.observe(viewLifecycleOwner) { data ->
+            trafficInformation = data
+            binding.debugTrafficTextView.text = trafficInformation
         }
 ////////////////////////////////////Icon Click Event Handle//////////////////////////////////////////////
         binding.hotelImageView.setOnClickListener{
@@ -186,6 +196,36 @@ class LookoutFragment : Fragment() {
                 putString("mainText", snowInformation)
             }
             dialogFragment.show(childFragmentManager, "skiDialog")
+        }
+
+        binding.weatherIconImageView.setOnClickListener{
+            val dialogFragment = LookoutDialogFragment()
+
+            dialogFragment.arguments = Bundle().apply {
+                putString("title", "Weather Forecast Report")
+                putString("mainText", weatherInformation)
+            }
+            dialogFragment.show(childFragmentManager, "weatherDialog")
+        }
+
+        binding.distanceIconImageView.setOnClickListener{
+            val dialogFragment = LookoutDialogFragment()
+
+            dialogFragment.arguments = Bundle().apply {
+                putString("title", "Distance Information Report")
+                putString("mainText", trafficInformation)
+            }
+            dialogFragment.show(childFragmentManager, "distanceDialog")
+        }
+
+        binding.durationIconImageView.setOnClickListener{
+            val dialogFragment = LookoutDialogFragment()
+
+            dialogFragment.arguments = Bundle().apply {
+                putString("title", "Duration Information Report")
+                putString("mainText", trafficInformation)
+            }
+            dialogFragment.show(childFragmentManager, "durationDialog")
         }
 
 //////////////////////////////////////General Function/////////////////////////////////////////////////
