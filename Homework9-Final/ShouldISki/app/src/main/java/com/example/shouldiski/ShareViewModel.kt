@@ -54,20 +54,20 @@ class ShareViewModel(application: Application) : AndroidViewModel(application) {
     // Function to be called when data is submitted from the UI
     // return 0 if input destination is not in database
     @RequiresApi(Build.VERSION_CODES.O)
-    fun submitData(destination: String, cityAddress: String, date: LocalDate?): Int {
+    fun submitData(destination: String, date: LocalDate?): Int {
         val formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd")
         val checkInDate = date?.format(formatter).toString()
-        val nextday=date?.plusDays(1)       //set default hotel check for 1 day
-        val checkOutDate = nextday?.format(formatter).toString()
+        val nextDay = date?.plusDays(1)
+        val checkOutDate = nextDay?.format(formatter).toString()
+
         if (date != null) {
-            fetchWeatherForecast(cityAddress, date.format(DateTimeFormatter.ofPattern("yyyy-MM-dd")))
+            fetchWeatherForecast(destination, date.format(DateTimeFormatter.ofPattern("yyyy-MM-dd")))
         }
-        if (resortDBHandler.checkDestination(destination))
-        {
+
+        if (resortDBHandler.checkDestination(destination)) {
             val hotelId = resortDBHandler.getHotelId(destination).toString()
-            resortName.value=resortDBHandler.getResortName(destination).toString()
-            //hotelID is hard coded here, there will be a database to save this information
-            compareRoomAvailability(checkInDate, checkOutDate,hotelId)
+            resortName.value = resortDBHandler.getResortName(destination).toString()
+            compareRoomAvailability(checkInDate, checkOutDate, hotelId)
             fetchSnowCondition(destination)
             setRecommendation()
             return 1
@@ -118,7 +118,7 @@ class ShareViewModel(application: Application) : AndroidViewModel(application) {
                     "&adults_number_by_rooms=1&units=metric&checkin_date=$checkin" +
                     "&hotel_id=$hotelID&locale=en-us&checkout_date=$checkout")
             .addHeader("Accept", "application/json")
-            .addHeader("X-RapidAPI-Key", API_KEY)
+            .addHeader("X-RapidAPI-Key", "e0fb2d06ebmsh13b4199c11aa6c3p1d57a3jsn2277e5c7358d")
             .addHeader("X-RapidAPI-Host", "booking-com.p.rapidapi.com")
             .build()
 
@@ -174,7 +174,7 @@ class ShareViewModel(application: Application) : AndroidViewModel(application) {
     private suspend fun getSnowCondition(resortName: String): SnowCondition = withContext(Dispatchers.IO) {
         val request = Request.Builder()
             .url("https://ski-resort-forecast.p.rapidapi.com/$resortName/snowConditions?units=m")
-            .addHeader("X-RapidAPI-Key", API_KEY)
+            .addHeader("X-RapidAPI-Key", "e0fb2d06ebmsh13b4199c11aa6c3p1d57a3jsn2277e5c7358d")
             .addHeader("X-RapidAPI-Host", "ski-resort-forecast.p.rapidapi.com")
             .build()
 
