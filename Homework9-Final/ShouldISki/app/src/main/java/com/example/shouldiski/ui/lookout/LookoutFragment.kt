@@ -234,7 +234,7 @@ class LookoutFragment : Fragment() {
         }
 
         viewModel.recommendation.observe(viewLifecycleOwner) { data ->
-            binding.overallScore.text = "Overall Score: $data"
+            binding.overallScore.text = "Overall Score: ${String.format("%.2f", data)}"
         }
 
 

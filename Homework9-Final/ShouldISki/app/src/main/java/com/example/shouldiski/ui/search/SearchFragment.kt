@@ -106,6 +106,7 @@ class SearchFragment : Fragment() {
                     locationManager.removeUpdates(this)
                 }
 
+                @Deprecated("Deprecated in Java")
                 override fun onStatusChanged(provider: String?, status: Int, extras: Bundle?) {}
                 override fun onProviderEnabled(provider: String) {}
                 override fun onProviderDisabled(provider: String) {}
@@ -114,6 +115,7 @@ class SearchFragment : Fragment() {
         }
     }
 
+    @Deprecated("Deprecated in Java")
     override fun onRequestPermissionsResult(requestCode: Int, permissions: Array<out String>, grantResults: IntArray) {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults)
         if (requestCode == 1 && grantResults.isNotEmpty() && grantResults[0] == PackageManager.PERMISSION_GRANTED) {

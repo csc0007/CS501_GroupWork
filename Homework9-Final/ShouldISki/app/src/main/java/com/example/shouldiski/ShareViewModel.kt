@@ -38,7 +38,7 @@ class ShareViewModel(application: Application) : AndroidViewModel(application) {
     val freshSnowLiveData = MutableLiveData<Int>()
     val errorLiveData = MutableLiveData<String>()
 
-    val recommendation = MutableLiveData<Int>()
+    val recommendation = MutableLiveData<Double>()
 
     data class SnowCondition(
         val topSnowDepth: String,
@@ -78,12 +78,24 @@ class ShareViewModel(application: Application) : AndroidViewModel(application) {
     }
 
     ////////////////////////////Recommendation//////////////////////////////////////////////////
+    private var weather=0   // 1 is sunny, 2 is rain, 3 is snow, 0 is other
+    private var tempreture: Double = 0.0
+    var travelTime=0
+    private var freshSnow=0
+    private var crowd: Double = 0.0
 
     private fun setRecommendation(){
         val preference = preferenceDBHandler.getPreference()
-        recommendation.value = preference.carveSkill + preference.parkSkill+ preference.powderSnow
-        + preference.groomedSnow  + preference.clearWeather + preference.snowWeather + preference.warmWeather
-        + preference.coldWeather + preference.levelP
+        recommendation.value = (preference.carveSkill * ((freshSnow!! > 5 && tempreture < 0).toInt()) +
+                preference.parkSkill * ((freshSnow!! > 5 && tempreture < 3).toInt()) +
+                preference.powderSnow * ((freshSnow!! > 10 && tempreture < 0).toInt()) +
+                preference.groomedSnow * (( tempreture < 3 ).toInt() +
+                preference.clearWeather * ( weather == 1 ).toInt()) +
+                preference.snowWeather * ( weather == 3 ).toInt() +
+                preference.warmWeather * ( tempreture > -2 ).toInt() +
+                preference.coldWeather * ( tempreture < -2 ).toInt() +
+                crowd ) / (preference.carveSkill + preference.parkSkill + preference.powderSnow + preference.groomedSnow
+                + preference.clearWeather + preference.snowWeather + preference.warmWeather + preference.coldWeather + 6) * 100
 
     }
 
@@ -96,6 +108,7 @@ class ShareViewModel(application: Application) : AndroidViewModel(application) {
                 val monthsLaterCount = getUniqueRoomCount(addMonths(checkin), addMonths(checkout), hotelID)
                 // compare with availability after six month (assume this is the empty status)
                 val percentage = ((monthsLaterCount - originalCount).toFloat() / monthsLaterCount.toFloat()) * 100
+                crowd = (percentage > 20 && percentage < 40).toInt() * 3.0 + (percentage < 20).toInt() * 6.0
                 withContext(Dispatchers.Main) {
                     hotelPercentage.value = percentage
                     roomAvailabilityData.value = "Available rooms: $originalCount\n" +
@@ -164,6 +177,7 @@ class ShareViewModel(application: Application) : AndroidViewModel(application) {
                 else
                 {
                     freshSnowLiveData.value = snowCondition.freshSnowfall.replace("cm", "").toInt()
+                    freshSnow = freshSnowLiveData.value!!
                 }
             } catch (e: Exception) {
                 errorLiveData.postValue(e.message)
@@ -240,10 +254,12 @@ class ShareViewModel(application: Application) : AndroidViewModel(application) {
                 val dayObject = forecastDayArray.getJSONObject(i)
                 if (dayObject.getString("date") == date) {
                     val day = dayObject.getJSONObject("day")
-                    val avgTempC = day.getDouble("avgtemp_c")
+                    tempreture = day.getDouble("avgtemp_c")
                     val condition = day.getJSONObject("condition")
                     val text = condition.getString("text")
-                    return " $text\n $avgTempC °C"
+                    weather = (text.contains("sunny", ignoreCase = true)||text.contains("cloudy", ignoreCase = true)||text.contains("mist", ignoreCase = true)).toInt()*1 +
+                            text.contains("rain", ignoreCase = true).toInt()*2 + text.contains("snow", ignoreCase = true).toInt()*3
+                    return " $text\n $tempreture °C"
                 }
             }
 
@@ -254,6 +270,7 @@ class ShareViewModel(application: Application) : AndroidViewModel(application) {
         }
     }
 
+    private fun Boolean.toInt() = if (this) 1 else 0
     ////////////////////////////Driving Direction///////////////////////////////////////////////////
     val routeInfo = MutableLiveData<String>()
     fun getDrivingDirections(origin: String, destination: String) {
