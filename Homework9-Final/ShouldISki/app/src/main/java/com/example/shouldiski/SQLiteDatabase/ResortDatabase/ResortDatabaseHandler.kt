@@ -41,7 +41,7 @@ class ResortDatabaseHandler(private val context: Context) : SQLiteOpenHelper(con
         context.assets.open(fileName).bufferedReader().useLines { lines ->
             lines.drop(1).forEach { line -> // Skip the header
                 val tokens = line.split(',')
-                if (tokens.size >= 4) { // Ensure there are enough columns
+                if (tokens.size >= 4) {
                     val resort = Resort(tokens[0], tokens[1], tokens[2], tokens[3])
                     insertData(resort)
                 }
