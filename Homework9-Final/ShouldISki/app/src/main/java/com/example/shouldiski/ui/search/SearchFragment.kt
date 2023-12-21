@@ -45,6 +45,7 @@ class SearchFragment : Fragment() {
         val root: View = binding.root
 
         // Observe the LiveData for room availability data for debug
+        /*
         viewModel.roomAvailabilityData.observe(viewLifecycleOwner, Observer { data ->
             binding.hotelDebug.text = data
         })
@@ -52,7 +53,7 @@ class SearchFragment : Fragment() {
         viewModel.snowConditionLiveData.observe(viewLifecycleOwner, Observer { data ->
             binding.snowDebug.text = data
         })
-
+        */
         binding.dateButton.setOnClickListener {
             showDatePickerDialog()
         }
