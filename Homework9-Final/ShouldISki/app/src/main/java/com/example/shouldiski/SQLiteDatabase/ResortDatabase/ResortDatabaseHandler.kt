@@ -64,7 +64,7 @@ class ResortDatabaseHandler(private val context: Context) : SQLiteOpenHelper(con
     @SuppressLint("Range")
     fun getHotelId(destination: String): String? {
         val db = this.readableDatabase
-        val selectQuery = "SELECT $COL_HOTELID FROM $TABLE_NAME WHERE $COL_DESTINATION = ?"
+        val selectQuery = "SELECT $COL_HOTELID FROM $TABLE_NAME WHERE $COL_DESTINATION = LOWER(?)"//compare value with lower case
         val cursor = db.rawQuery(selectQuery, arrayOf(destination))
         var hotelId: String? = null
         if (cursor.moveToFirst()) {
@@ -77,7 +77,7 @@ class ResortDatabaseHandler(private val context: Context) : SQLiteOpenHelper(con
     @SuppressLint("Range")
     fun getResortName(destination: String): String? {
         val db = this.readableDatabase
-        val selectQuery = "SELECT $COL_RESORTNAME FROM $TABLE_NAME WHERE $COL_DESTINATION = ?"
+        val selectQuery = "SELECT $COL_RESORTNAME FROM $TABLE_NAME WHERE $COL_DESTINATION = LOWER(?)"
         val cursor = db.rawQuery(selectQuery, arrayOf(destination))
         var resortName: String? = null
         if (cursor.moveToFirst()) {
@@ -91,7 +91,7 @@ class ResortDatabaseHandler(private val context: Context) : SQLiteOpenHelper(con
     // If in database, return 1, otherwise return 0
     fun checkDestination(destination: String): Boolean {
         val db = this.readableDatabase
-        val selectQuery = "SELECT * FROM $TABLE_NAME WHERE $COL_DESTINATION = ?"
+        val selectQuery = "SELECT * FROM $TABLE_NAME WHERE $COL_DESTINATION = LOWER(?)"
         val cursor = db.rawQuery(selectQuery, arrayOf(destination))
         val exists = cursor.count > 0
         cursor.close()

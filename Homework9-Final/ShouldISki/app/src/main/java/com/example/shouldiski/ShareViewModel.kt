@@ -21,7 +21,7 @@ import java.net.SocketTimeoutException
 import java.time.format.DateTimeFormatter
 import java.util.concurrent.TimeUnit
 
-const val API_KEY: String = "" //API key for hotelAPI and snow condition API
+const val API_KEY: String = "e0fb2d06ebmsh13b4199c11aa6c3p1d57a3jsn2277e5c7358d" //API key for hotelAPI and snow condition API
 
 class ShareViewModel(application: Application) : AndroidViewModel(application) {
 
@@ -118,7 +118,7 @@ class ShareViewModel(application: Application) : AndroidViewModel(application) {
                     "&adults_number_by_rooms=1&units=metric&checkin_date=$checkin" +
                     "&hotel_id=$hotelID&locale=en-us&checkout_date=$checkout")
             .addHeader("Accept", "application/json")
-            .addHeader("X-RapidAPI-Key", "e0fb2d06ebmsh13b4199c11aa6c3p1d57a3jsn2277e5c7358d")
+            .addHeader("X-RapidAPI-Key", API_KEY)
             .addHeader("X-RapidAPI-Host", "booking-com.p.rapidapi.com")
             .build()
 
@@ -174,7 +174,7 @@ class ShareViewModel(application: Application) : AndroidViewModel(application) {
     private suspend fun getSnowCondition(resortName: String): SnowCondition = withContext(Dispatchers.IO) {
         val request = Request.Builder()
             .url("https://ski-resort-forecast.p.rapidapi.com/$resortName/snowConditions?units=m")
-            .addHeader("X-RapidAPI-Key", "e0fb2d06ebmsh13b4199c11aa6c3p1d57a3jsn2277e5c7358d")
+            .addHeader("X-RapidAPI-Key", API_KEY)
             .addHeader("X-RapidAPI-Host", "ski-resort-forecast.p.rapidapi.com")
             .build()
 
@@ -223,7 +223,7 @@ class ShareViewModel(application: Application) : AndroidViewModel(application) {
         val request = Request.Builder()
             .url("https://weatherapi-com.p.rapidapi.com/forecast.json?q=$cityName&days=3&dt=$date")
             .get()
-            .addHeader("X-RapidAPI-Key", "e0fb2d06ebmsh13b4199c11aa6c3p1d57a3jsn2277e5c7358d") // Replace with your API key
+            .addHeader("X-RapidAPI-Key", API_KEY)
             .addHeader("X-RapidAPI-Host", "weatherapi-com.p.rapidapi.com")
             .build()
         val response = client.newCall(request).execute()
@@ -264,7 +264,7 @@ class ShareViewModel(application: Application) : AndroidViewModel(application) {
                 val request = Request.Builder()
                     .url("https://driving-directions1.p.rapidapi.com/get-directions?origin=$urlOrigin&destination=$urlDestination&avoid_routes=tolls,ferries&country=us&language=en")
                     .get()
-                    .addHeader("X-RapidAPI-Key", "e0fb2d06ebmsh13b4199c11aa6c3p1d57a3jsn2277e5c7358d")
+                    .addHeader("X-RapidAPI-Key", API_KEY)
                     .addHeader("X-RapidAPI-Host", "driving-directions1.p.rapidapi.com")
                     .build()
                 val client = OkHttpClient.Builder()
