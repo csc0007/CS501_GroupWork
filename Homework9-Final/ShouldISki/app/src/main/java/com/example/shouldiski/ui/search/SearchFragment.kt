@@ -5,6 +5,7 @@ import android.app.DatePickerDialog
 import android.content.Context
 import android.content.pm.PackageManager
 import android.location.Location
+import android.location.LocationListener
 import android.location.LocationManager
 import android.os.Build
 import android.os.Bundle
@@ -27,6 +28,8 @@ class SearchFragment : Fragment() {
 
     private var _binding: FragmentSearchBinding? = null
     private val binding get() = _binding!!
+    private lateinit var locationManager: LocationManager
+    private var locationListener: LocationListener? = null
 
     @RequiresApi(Build.VERSION_CODES.O)
     private var selectedDate=LocalDate.of(1500, 0 + 1, 1)
@@ -56,22 +59,21 @@ class SearchFragment : Fragment() {
 
         binding.searchButton.setOnClickListener {
             val destination = binding.destinationEditText.text.toString()
-            val cityAddress = binding.cityAddressEditText.text.toString()
             if (destination.isBlank()) {
                 Toast.makeText(requireContext(), "Please Enter Destination", Toast.LENGTH_SHORT).show()
-            } else if (cityAddress.isBlank()) {
-                Toast.makeText(requireContext(), "Please Enter City Address", Toast.LENGTH_SHORT).show()
             } else if (selectedDate == LocalDate.of(1500, 1, 1)) {
                 Toast.makeText(requireContext(), "Please Select Date", Toast.LENGTH_SHORT).show()
             } else {
-                val code = viewModel.submitData(destination, cityAddress, selectedDate)
+                val code = viewModel.submitData(destination,  selectedDate)
                 if(code == 0) {
                     Toast.makeText(requireContext(), "This destination is not supported", Toast.LENGTH_SHORT).show()
+                }else{
+                    getCurrentLocation { location ->
+                        val origin = "${location.latitude},${location.longitude}"
+                        viewModel.getDrivingDirections(origin, destination)
+                    }
                 }
-                getCurrentLocation { location ->
-                    val origin = "${location.latitude},${location.longitude}"
-                    viewModel.getDrivingDirections(origin, cityAddress)
-                }
+
             }
         }
         return root
@@ -95,13 +97,20 @@ class SearchFragment : Fragment() {
         if (ContextCompat.checkSelfPermission(requireContext(), android.Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
             ActivityCompat.requestPermissions(requireActivity(), arrayOf(android.Manifest.permission.ACCESS_FINE_LOCATION), 1)
         } else {
-            val locationManager = requireActivity().getSystemService(Context.LOCATION_SERVICE) as LocationManager
-            val location = locationManager.getLastKnownLocation(LocationManager.GPS_PROVIDER)
-            if (location != null) {
-                callback(location)
-            } else {
-                Toast.makeText(requireContext(), "Unable to determine current location", Toast.LENGTH_LONG).show()
+            // Initialize the LocationManager
+            locationManager = requireActivity().getSystemService(Context.LOCATION_SERVICE) as LocationManager
+            locationListener = object : LocationListener {
+                override fun onLocationChanged(location: Location) {
+                    callback(location)
+                    // Remove updates to avoid unnecessary battery usage
+                    locationManager.removeUpdates(this)
+                }
+
+                override fun onStatusChanged(provider: String?, status: Int, extras: Bundle?) {}
+                override fun onProviderEnabled(provider: String) {}
+                override fun onProviderDisabled(provider: String) {}
             }
+            locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 0L, 0f, locationListener!!)
         }
     }
 
@@ -110,8 +119,8 @@ class SearchFragment : Fragment() {
         if (requestCode == 1 && grantResults.isNotEmpty() && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
             getCurrentLocation { location ->
                 val origin = "${location.latitude},${location.longitude}"
-                val cityAddress = binding.cityAddressEditText.text.toString()
-                viewModel.getDrivingDirections(origin, cityAddress)
+                val destination = binding.destinationEditText.text.toString()
+                viewModel.getDrivingDirections(origin, destination)
             }
         } else {
             Toast.makeText(requireContext(), "Location permission is required", Toast.LENGTH_SHORT).show()
@@ -121,5 +130,7 @@ class SearchFragment : Fragment() {
     override fun onDestroyView() {
         super.onDestroyView()
         _binding = null
+        // Remove location updates to avoid memory leak
+        locationListener?.let { locationManager.removeUpdates(it) }
     }
 }
