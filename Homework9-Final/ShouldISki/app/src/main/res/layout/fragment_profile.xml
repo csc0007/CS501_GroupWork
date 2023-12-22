@@ -266,7 +266,7 @@
                         android:id="@+id/radioButton_beginer"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="Beginer"
+                        android:text="@string/beginer"
                         android:textColor="@color/white"
                         android:textSize="20sp" />
 
@@ -274,7 +274,7 @@
                         android:id="@+id/radioButton_intermediate"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="Intermediate"
+                        android:text="@string/intermediate"
                         android:textColor="@color/white"
                         android:textSize="20sp" />
 
@@ -282,7 +282,7 @@
                         android:id="@+id/radioButton_expert"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="Expert"
+                        android:text="@string/expert"
                         android:textColor="@color/white"
                         android:textSize="20sp" />
                 </RadioGroup>

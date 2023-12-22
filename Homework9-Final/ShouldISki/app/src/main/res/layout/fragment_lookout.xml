@@ -167,8 +167,8 @@
 
     <TextView
         android:id="@+id/weather"
-        android:layout_width="138dp"
-        android:layout_height="42dp"
+        android:layout_width="146dp"
+        android:layout_height="57dp"
         android:layout_marginTop="332dp"
         android:gravity="center"
         android:textColor="@color/white"
