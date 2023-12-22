@@ -42,12 +42,12 @@ class LookoutFragment : Fragment() {
 ////////////////////////////////////////Hotel API////////////////////////////////////////////////////////////
         var hotelInformation="No Data"
         //for debug
-        /*
+
         viewModel.roomAvailabilityData.observe(viewLifecycleOwner) { data ->
             hotelInformation = data
-            binding.debugHotelTextView.text = data
+            //binding.debugHotelTextView.text = data
         }
-        */
+
 
         viewModel.hotelPercentage.observe(viewLifecycleOwner) { percentage ->
             val hotelDrawable = ContextCompat.getDrawable(requireContext(), R.drawable.baseline_bed_24)
@@ -132,11 +132,11 @@ class LookoutFragment : Fragment() {
 
         var snowInformation= "No Data"
         //for debug test
-        /*
+
         viewModel.snowConditionLiveData.observe(viewLifecycleOwner) { data ->
             snowInformation = data
-            binding.debugSnowTextView.text = snowInformation
-        }*/
+            //binding.debugSnowTextView.text = snowInformation
+        }
         ///////////////////////////////////Weather Forecast API//////////////////////////////////////////////////
 
         viewModel.weatherData.observe(viewLifecycleOwner) { data ->
@@ -160,12 +160,12 @@ class LookoutFragment : Fragment() {
 
         var weatherInformation= "No Data"
         //for debug and test
-        /*
+
         viewModel.weatherData.observe(viewLifecycleOwner) { data ->
             weatherInformation = data
-            binding.debugWeatherTextView.text = weatherInformation
+            //binding.debugWeatherTextView.text = weatherInformation
         }
-         */
+
 ///////////////////////////////////Driving Direction API//////////////////////////////////////////////////
         viewModel.routeInfo.observe(viewLifecycleOwner) { data ->
             val (distance, duration) = parseRouteInfo(data)
@@ -176,12 +176,12 @@ class LookoutFragment : Fragment() {
         }
         var trafficInformation= "No Data"
         // for debug
-        /*
+
         viewModel.routeInfo.observe(viewLifecycleOwner) { data ->
             trafficInformation = data
-            binding.debugTrafficTextView.text = trafficInformation
+            //binding.debugTrafficTextView.text = trafficInformation
         }
-        */
+
 
 ////////////////////////////////////Icon Click Event Handle//////////////////////////////////////////////
         binding.hotelImageView.setOnClickListener{

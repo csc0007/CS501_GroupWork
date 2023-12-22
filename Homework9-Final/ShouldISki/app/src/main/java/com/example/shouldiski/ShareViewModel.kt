@@ -21,7 +21,7 @@ import java.net.SocketTimeoutException
 import java.time.format.DateTimeFormatter
 import java.util.concurrent.TimeUnit
 
-const val API_KEY: String = "e0fb2d06ebmsh13b4199c11aa6c3p1d57a3jsn2277e5c7358d" //API key for hotelAPI and snow condition API
+const val API_KEY: String = "" //API key for hotelAPI and snow condition API
 
 class ShareViewModel(application: Application) : AndroidViewModel(application) {
 

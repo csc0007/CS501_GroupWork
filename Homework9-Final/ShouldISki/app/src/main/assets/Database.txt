@@ -1,6 +1,6 @@
 Destination,ResortName,HotelID,ResortLocation
-stowe,Stowe Mountain Resort,191981,109.66666,
-okemo,Okemo Mountain Resort,406833,109.66666,
-sunapee,Mount Sunapee Resort,308531,109.66666,
-wildcat,Wildcat Mountain,2168361,109.66666,
-killington,Killington Grand Resort,521973,109.66666,
+stowe,Stowe Mountain Resort,191981,44.526361 72.778837,
+okemo,Okemo Mountain Resort,406833,43.400172 -72.715473,
+sunapee,Mount Sunapee Resort,308531,43.334612 72.076225,
+wildcat,Wildcat Mountain,2168361,44.263389 -71.242169,
+killington,Killington Grand Resort,521973,43.629596 -72.798092,
